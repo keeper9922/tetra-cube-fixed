@@ -5,10 +5,11 @@
     display: inline-block;
     vertical-align: top;
     width: 400px;
-    background: #FDF1DC;
+    /*background: #FDF1DC;*/
+    background: #f6f3ee;
     background-size: cover;
 	background-position: center; 
-    background-image: url('../dndimages/statblockparch.jpg');
+    /*background-image: url('../dndimages/statblockparch.jpg');*/
     padding: 10px 10px 20px;
     box-sizing: border-box;
     font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
@@ -35,6 +36,11 @@
     margin-left: 1.5%;
 }
 
+hr {
+    width: 100%;
+    margin: 5px 5px 5px -2.5px;
+    padding: 0;
+}
 /* @media screen and (max-width: 675px) { */
 /* .stat-block.wide { */
 /* min-width: 280px; */
@@ -128,8 +134,8 @@
     margin: 0 0 10px;
 }
 
-.scores {
-    text-align: center;
+/*.scores {
+    text-align: left;
     color: #922610;
 }
 
@@ -138,7 +144,7 @@
     vertical-align: middle;
     width: 15.5%;
     min-width: 40px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1em;
 }
 
@@ -153,6 +159,91 @@
 .scores p {
     margin: 0 0 10px;
     line-height: 1.2em;
+}*/
+
+.stats {
+    font-family: "Arial", sans-serif;
+    color: #751e10;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    /*border-style: solid;*/
+    /*border-color: black;*/
+    font-size: 10px;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.stats tr{
+    margin-right: 10px;
+}
+
+.stats col.name {
+    width: 10%;
+    /*background-color: black;*/
+}
+.stats col.value {
+    width: 8%;
+    /*background-color: wheat;*/
+}
+
+.stats col.mod {
+    width: 8%;
+    /*background-color: #1c7430;*/
+
+}
+
+.stats col.save {
+    width: 8%;
+    /*background-color: blueviolet;*/
+}
+
+.stats th,
+.stats td {
+    padding: 2px 5px;
+    line-height: 1.2em;
+    text-align: right;
+    font-size: 14px;
+}
+
+.stats tbody th {
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    padding-right: 10px;
+}
+
+.stats thead th {
+    font-size: 10px;
+    color: #666;
+    font-weight: normal;
+}
+
+/*.stats tbody tr:nth-child(odd) {
+    background: #d8ddd6;
+}
+
+.stats tbody tr:nth-child(even) {
+    background: #c9c7cb;
+}*/
+
+.stats .sdc{
+    background: #e8e2d6;
+}
+.stats .iwc{
+    background: #d1d6cd;
+}
+.stats .sdc .bonuses{
+    background: #d8cfca;
+}
+.stats .iwc .bonuses{
+    background: #cac6c8;
+}
+
+
+/* одинаковая ширина всех 12 колонок */
+.stats col {
+    width: calc(100% / 12);
 }
 
 .property-block h4,

@@ -143,6 +143,7 @@ var SavedData = {
     },
 }
 
+
 // Update the main stat block
 function UpdateStatblock(moveSeparationPoint) {
     // Set Separation Point
@@ -188,14 +189,21 @@ function UpdateStatblock(moveSeparationPoint) {
     $("#speed").html(StringFunctions.FormatString(StringFunctions.RemoveHtmlTags(StringFunctions.GetSpeed())));
 
     // Stats
-    let setPts = (id, pts) =>
-        $(id).html(pts + " (" + StringFunctions.RemoveHtmlTags(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(pts))) + ")");
-    setPts("#strpts", mon.strPoints);
-    setPts("#dexpts", mon.dexPoints);
-    setPts("#conpts", mon.conPoints);
-    setPts("#intpts", mon.intPoints);
-    setPts("#wispts", mon.wisPoints);
-    setPts("#chapts", mon.chaPoints);
+    // strpts
+    function setPts(id, pts){
+        $(id+"pts").html(pts);
+        $(id+"mod").html(StringFunctions.RemoveHtmlTags(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(pts))));
+    }
+    setPts("#str", mon.strPoints);
+    setPts("#dex", mon.dexPoints);
+    setPts("#con", mon.conPoints);
+    setPts("#int", mon.intPoints);
+    setPts("#wis", mon.wisPoints);
+    setPts("#cha", mon.chaPoints);
+    for (let index = 0; index < mon.sthrows.length; index++) {
+        setSavingThrow(mon.sthrows[index].name, true);
+    }
+
 
     let propertiesDisplayArr = StringFunctions.GetPropertiesDisplayArr();
 
@@ -223,21 +231,21 @@ function UpdateStatblock(moveSeparationPoint) {
     if (mon.bonusActions.length > 0) AddToTraitList(traitsHTML, mon.bonusActions, "<h3>Bonus Actions</h3>");
     if (mon.reactions.length > 0) AddToTraitList(traitsHTML, mon.reactions, "<h3>Reactions</h3>");
     if (mon.isLegendary && (mon.legendaries.length > 0 || mon.legendariesDescription.length > 0))
-        AddToTraitList(traitsHTML, mon.legendaries, mon.legendariesDescription == "" ?
+        AddToTraitList(traitsHTML, mon.legendaries, mon.legendariesDescription === "" ?
             "<h3>Legendary Actions</h3><div class='property-block'></div>" :
             ["<h3>Legendary Actions</h3><div class='property-block'>", StringFunctions.FormatString(ReplaceTags(StringFunctions.RemoveHtmlTags(mon.legendariesDescription))), "</div></br>"], true);
     if (mon.isMythic && mon.isLegendary && (mon.mythics.length > 0 || mon.mythicDescription.length > 0))
-        AddToTraitList(traitsHTML, mon.mythics, mon.mythicDescription == "" ?
+        AddToTraitList(traitsHTML, mon.mythics, mon.mythicDescription === "" ?
             "<h3>Mythic Actions</h3><div class='property-block'></div>" :
             ["<h3>Mythic Actions</h3><div class='property-block'>", StringFunctions.FormatString(ReplaceTags(StringFunctions.RemoveHtmlTags(mon.mythicDescription))), "</div></br>"], true);    
     if (mon.isLair && mon.isLegendary && (mon.lairs.length > 0 || mon.lairDescription.length > 0 || mon.lairDescriptionEnd.length > 0)) {
-        AddToTraitList(traitsHTML, mon.lairs, mon.lairDescription == "" ?
+        AddToTraitList(traitsHTML, mon.lairs, mon.lairDescription === "" ?
             "<h3>Lair Actions</h3><div class='property-block'></div>" :
             ["<h3>Lair Actions</h3><div class='property-block'>", StringFunctions.FormatString(ReplaceTags(StringFunctions.RemoveHtmlTags(mon.lairDescription))), "</div></br><ul>"], false, true);
         traitsHTML.push("</ul>" + StringFunctions.FormatString(ReplaceTags(StringFunctions.RemoveHtmlTags(mon.lairDescriptionEnd))));
     }
     if (mon.isRegional && mon.isLegendary && (mon.regionals.length > 0 || mon.regionalDescription.length > 0 || mon.regionalDescriptionEnd.length > 0)) {
-        AddToTraitList(traitsHTML, mon.regionals, mon.regionalDescription == "" ?
+        AddToTraitList(traitsHTML, mon.regionals, mon.regionalDescription === "" ?
             "<h3>Regional Effects</h3><div class='property-block'></div>" :
             ["<h3>Regional Effects</h3><div class='property-block'>", StringFunctions.FormatString(ReplaceTags(StringFunctions.RemoveHtmlTags(mon.regionalDescription))), "</div></br><ul>"], false, true);
         traitsHTML.push("</ul>" + StringFunctions.FormatString(ReplaceTags(StringFunctions.RemoveHtmlTags(mon.regionalDescriptionEnd))));
@@ -937,17 +945,13 @@ var InputFunctions = {
                 return;
             })
     },
-
-    // Adding items to lists
-
-    AddSthrowInput: function () {
+    AddSthrowInput: function (value) {
         // Insert, complying with standard stat order
-        GetVariablesFunctions.AddSthrow($("#sthrows-input").val());
+        GetVariablesFunctions.AddSthrow(value);
 
         // Display
         FormFunctions.MakeDisplayList("sthrows", true);
     },
-
     AddSkillInput: function (note) {
         // Insert Alphabetically
         GetVariablesFunctions.AddSkill($("#skills-input").val(), note);
@@ -1043,6 +1047,19 @@ var InputFunctions = {
         }
     }
 }
+
+function setSavingThrow(name, enabled=true) {
+    console.log("FUNCTION: setSavingThrow: " + name + "; " + mon[name+"Points"] + "; " + enabled);
+    if (enabled) {
+        console.log("enabled");
+        $("#" + name + "save").html(StringFunctions.RemoveHtmlTags(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[name+"Points"]) + CrFunctions.GetProf())))
+    }else{
+        console.log("not enabled");
+        $("#" + name + "save").html(StringFunctions.RemoveHtmlTags(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[name+"Points"]))))
+        console.log(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[name+"Points"])) + "; " + mon[name+"Points"])
+    }
+}
+
 
 // Functions to get/set important variables
 var GetVariablesFunctions = {
@@ -1247,16 +1264,24 @@ var GetVariablesFunctions = {
 
         // Saving Throws
         mon.sthrows = [];
+        // Saving Throws
+        mon.sthrows = [];
+
         if (preset.strength_save)
             this.AddSthrow("str");
+
         if (preset.dexterity_save)
             this.AddSthrow("dex");
+
         if (preset.constitution_save)
             this.AddSthrow("con");
+
         if (preset.intelligence_save)
             this.AddSthrow("int");
+
         if (preset.wisdom_save)
             this.AddSthrow("wis");
+
         if (preset.charisma_save)
             this.AddSthrow("cha");
 
@@ -1294,8 +1319,8 @@ var GetVariablesFunctions = {
         if (preset.languages.includes("understands")) {
             let speaksUnderstandsArr = preset.languages.split("understands"),
                 speaks = speaksUnderstandsArr[0].length > 0 ? speaksUnderstandsArr[0].trim().split(",") : [],
-                understands = speaksUnderstandsArr[1].split(" but "),
-                understandsLangs = understands[0].replace(", and ", ",").replace(" and ", ",").split(","),
+                understands = speaksUnderstandsArr[1].split(" но "),
+                understandsLangs = understands[0].replace(", и ", ",").replace(" и ", ",").split(","),
                 understandsBut = understands.length > 1 ? understands[1].trim() : "";
 
             for (let index = 0; index < speaks.length; index++)
@@ -1433,9 +1458,6 @@ var GetVariablesFunctions = {
 
         mon.separationPoint = undefined; // This will make the separation point be automatically calculated in UpdateStatblock
     },
-
-    // Add stuff to arrays
-
     AddSthrow: function (sthrowName) {
         if (!sthrowName) return;
         let sthrowData = ArrayFunctions.FindInList(data.stats, sthrowName),
@@ -1444,7 +1466,7 @@ var GetVariablesFunctions = {
 
         // Non-alphabetical ordering
         for (let index = 0; index < mon.sthrows.length; index++) {
-            if (mon.sthrows[index].name == sthrowName) return;
+            if (mon.sthrows[index].name === sthrowName) return;
             if (mon.sthrows[index].order > sthrowData.order) {
                 mon.sthrows.splice(index, 0, sthrowData)
                 inserted = true;
@@ -1717,10 +1739,22 @@ var StringFunctions = {
             immuneDisplayString = "";
 
         // Saving Throws
-        for (let index = 0; index < mon.sthrows.length; index++)
+        // console.log(mon.sthrows.length);
+        // console.log(mon["strPoints"]);
+        setSavingThrow("str", false);
+        setSavingThrow("dex", false);
+        setSavingThrow("con", false);
+        setSavingThrow("int", false);
+        setSavingThrow("wis", false);
+        setSavingThrow("cha", false);
+        for (let index = 0; index < mon.sthrows.length; index++){
+            setSavingThrow(mon.sthrows[index].name, true);
+            console.log("Actual saving throw description: " + mon.sthrows[index].name + "; " + mon[mon.sthrows[index].name + "Points"] + "; " + CrFunctions.GetProf() + "; " + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[mon.sthrows[index].name + "Points"]) + CrFunctions.GetProf()));
+            /*
             sthrowsDisplayArr.push(StringFunctions.StringCapitalize(mon.sthrows[index].name) + " " +
                 StringFunctions.BonusFormat((MathFunctions.PointsToBonus(mon[mon.sthrows[index].name + "Points"]) + CrFunctions.GetProf())));
-
+                */
+        }
         // Skills
         for (let index = 0; index < mon.skills.length; index++) {
             let skillData = mon.skills[index];
@@ -1728,7 +1762,7 @@ var StringFunctions = {
                 StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[skillData.stat + "Points"]) + CrFunctions.GetProf() * (skillData.hasOwnProperty("note") ? 2 : 1)));
         }
 
-        // Damage Types (It's not pretty but it does its job)
+        // Damage Types (It's not pretty, but it does its job)
         let vulnerableDisplayArr = [],
             resistantDisplayArr = [],
             immuneDisplayArr = [],
@@ -1927,7 +1961,7 @@ var CrFunctions = {
     GetString: function () {
         if (mon.cr == "*")
             return mon.customCr.trim();
-        return mon.cr + " (" + data.crs[mon.cr].xp + " XP)"
+        return mon.cr + " (" + data.crs[mon.cr].xp + " ПО; БМ +" + this.GetProf() + ")"
     }
 }
 

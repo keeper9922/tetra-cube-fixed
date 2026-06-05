@@ -26,86 +26,162 @@
             <p>Based on <a href="http://valloric.github.io/statblock5e/">Statblock5e</a> and <a
                     href="https://open5e.com/">Open5e</a></p>
             <br>
-            <button onclick="TrySaveFile()">Save Statblock</button>
-            <button onclick="LoadFilePrompt()">Load Statblock</button>
-            <button onclick="TryPrint()">Printable Block</button>
-            <button onclick="TryImage()">View Image</button>
-            <button onclick="TryMarkdown()">View Markdown</button>
+            <button onclick="TrySaveFile()">Сохранить</button>
+            <button onclick="LoadFilePrompt()">Загрузить</button>
+            <button onclick="TryPrint()">Печать</button>
+            <button onclick="TryImage()">Скачать png</button>
+            <button onclick="TryMarkdown()">Текстом</button>
             <input id="file-upload" type="file" onChange="TryLoadFile();" hidden />
             <br><br>
-            <div id="monster-select-form">Monster Presets: <select id="monster-select">
-                    <option value="">-Select-</option>
-                    <option value="default">Restore Default</option>
-                </select> <button type="button" id="monster-select-button" onclick="InputFunctions.GetPreset()">Use
-                    Preset</button></div>
+            <div id="monster-select-form">Пресеты: <select id="monster-select">
+                    <option value="">-Выбрать-</option>
+                    <option value="default">Восстановить стандарт</option>
+                </select> <button type="button" id="monster-select-button" onclick="InputFunctions.GetPreset()">
+                Использовать</button></div>
             <br>
 
             <!-- The Actual Stat Block -->
             <div id="stat-block-wrapper">
                 <div id="stat-block" class="stat-block">
-                    <hr class="orange-border" />
+<!--                    <hr class="orange-border" />-->
                     <div class="section-left">
                         <div class="creature-heading">
-                            <h1 id="monster-name">Monster</h1>
-                            <h2 id="monster-type">Size, type, alignment</h2>
+                            <h1 id="monster-name">Монстр</h1>
+                            <hr>
+                            <!--<svg height="3" width="100%" class="tapered-rule">
+                                <polyline points="0,2 400,2.5 0,5"></polyline>
+                            </svg>-->
+                            <h2 id="monster-type">Размер, тип, мировоззрение</h2>
                         </div> <!-- creature heading -->
-                        <svg height="5" width="100%" class="tapered-rule">
-                            <polyline points="0,0 400,2.5 0,5"></polyline>
-                        </svg>
+
                         <div class="top-stats">
                             <div class="property-line first">
-                                <h4>Armor Class</h4>
+                                <h4>КД</h4>
                                 <p id="armor-class"></p>
                             </div> <!-- property line -->
                             <div class="property-line">
-                                <h4>Hit Points</h4>
+                                <h4>Хиты</h4>
                                 <p id="hit-points"></p>
                             </div> <!-- property line -->
                             <div class="property-line last">
-                                <h4>Speed</h4>
+                                <h4>Скорость</h4>
                                 <p id="speed"></p>
                             </div> <!-- property line -->
-                            <svg height="5" width="100%" class="tapered-rule">
+                            <!--<svg height="5" width="100%" class="tapered-rule">
                                 <polyline points="0,0 400,2.5 0,5"></polyline>
-                            </svg>
+                            </svg>-->
+                            <!--<div class="scores">
+                                &lt;!&ndash;<h4>СИЛ</h4>
+                                <p id="strpts"></p>
+                                <p>0</p>
+                                <p>0</p>&ndash;&gt;
+                            </div> &lt;!&ndash; scores &ndash;&gt;-->
                             <div class="scores">
-                                <div class="scores-strength">
-                                    <h4>STR</h4>
-                                    <p id="strpts"></p>
-                                </div> <!-- scores strength -->
-                                <div class="scores-dexterity">
-                                    <h4>DEX</h4>
-                                    <p id="dexpts"></p>
-                                </div> <!-- scores dexterity -->
-                                <div class="scores-constitution">
-                                    <h4>CON</h4>
-                                    <p id="conpts"></p>
-                                </div> <!-- scores constitution -->
-                                <div class="scores-intelligence">
-                                    <h4>INT</h4>
-                                    <p id="intpts"></p>
-                                </div> <!-- scores intelligence -->
-                                <div class="scores-wisdom">
-                                    <h4>WIS</h4>
-                                    <p id="wispts"></p>
-                                </div> <!-- scores wisdom -->
-                                <div class="scores-charisma">
-                                    <h4>CHA</h4>
-                                    <p id="chapts"></p>
-                                </div> <!-- scores charisma -->
-                            </div> <!-- scores -->
-                            <svg height="5" width="100%" class="tapered-rule">
+                                <table class="stats">
+                                    <colgroup>
+                                        <col class="name">
+                                        <col class="value">
+                                        <col class="mod">
+                                        <col class="save">
+
+                                        <col class="name">
+                                        <col class="value">
+                                        <col class="mod">
+                                        <col class="save">
+
+                                        <col class="name">
+                                        <col class="value">
+                                        <col class="mod">
+                                        <col class="save">
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>МОД</th>
+                                        <th>ИСП</th>
+
+                                        <th></th>
+                                        <th></th>
+                                        <th>МОД</th>
+                                        <th>ИСП</th>
+
+                                        <th></th>
+                                        <th></th>
+                                        <th>МОД</th>
+                                        <th>ИСП</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr class="sdc">
+                                        <th>Сил</th>
+                                        <td id="strpts"></td>
+                                        <td id="strmod" class="bonuses"></td>
+                                        <td id="strsave" class="bonuses"></td>
+
+                                        <th>Лвк</th>
+                                        <td id="dexpts"></td>
+                                        <td id="dexmod" class="bonuses"></td>
+                                        <td id="dexsave" class="bonuses"></td>
+
+                                        <th>Тел</th>
+                                        <td id="conpts"></td>
+                                        <td id="conmod" class="bonuses"></td>
+                                        <td id="consave" class="bonuses"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <table class="stats">
+                                    <colgroup>
+                                        <col class="name">
+                                        <col class="value">
+                                        <col class="mod">
+                                        <col class="save">
+
+                                        <col class="name">
+                                        <col class="value">
+                                        <col class="mod">
+                                        <col class="save">
+
+                                        <col class="name">
+                                        <col class="value">
+                                        <col class="mod">
+                                        <col class="save">
+                                    </colgroup>
+                                    <tbody>
+                                    <tr class="iwc">
+                                        <th>Инт</th>
+                                        <td id="intpts"></td>
+                                        <td id="intmod" class="bonuses"></td>
+                                        <td id="intsave" class="bonuses"></td>
+
+                                        <th>Мдр</th>
+                                        <td id="wispts"></td>
+                                        <td id="wismod" class="bonuses"></td>
+                                        <td id="wissave" class="bonuses"></td>
+
+                                        <th>Хар</th>
+                                        <td id="chapts"></td>
+                                        <td id="chamod" class="bonuses"></td>
+                                        <td id="chasave" class="bonuses"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!--<svg height="5" width="100%" class="tapered-rule">
                                 <polyline points="0,0 400,2.5 0,5"></polyline>
-                            </svg>
+                            </svg>-->
                             <div id="properties-list"></div>
                             <div id="challenge-rating-line" class="property-line last">
-                                <h4>Challenge</h4>
+                                <h4>УО</h4>
                                 <p id="challenge-rating"></p>
                             </div> <!-- property line -->
                         </div> <!-- top stats -->
-                        <svg height="5" width="100%" class="tapered-rule">
+                        <!--<svg height="5" width="100%" class="tapered-rule">
                             <polyline points="0,0 400,2.5 0,5"></polyline>
-                        </svg>
+                        </svg>-->
                         <div class="actions">
                             <div id="traits-list-left"></div>
                         </div> <!-- actions -->
@@ -115,67 +191,67 @@
                             <div id="traits-list-right"></div>
                         </div> <!-- actions -->
                     </div> <!-- section right -->
-                    <hr class="orange-border bottom" />
+<!--                    <hr class="orange-border bottom" />-->
                 </div>
             </div> <!-- stat block -->
 
             <div class="options">
                 <form>
                     <label for="1col-input"><input id="1col-input" type="radio" name="columns-input" value="1col"
-                            checked> One Column</label>
+                            checked> Одна колонка</label>
                     <label for="2col-input" style="margin-left: .5rem;"><input id="2col-input" type="radio"
-                            name="columns-input" value="2col"> Two Columns</label>
+                            name="columns-input" value="2col"> Две колонки</label>
                 </form>
                 <button id="left-separator-button" type="button" onclick="UpdateBlockFromVariables(1)">&lt;&lt;</button>
-                <button type="button" onclick="UpdateBlockFromVariables(0)">Update Statblock</button>
+                <button type="button" onclick="UpdateBlockFromVariables(0)">Обновить</button>
                 <button id="right-separator-button" type="button" onclick="UpdateBlockFromVariables(-1)">>></button>
                 <hr>
                 <table id="type-form">
                     <tr>
                         <td>
-                            <label for="name-input">Name: <br><input id="name-input" type="text"
+                            <label for="name-input">Имя: <br><input id="name-input" type="text"
                                     value="Monster"></label>
                         </td>
                         <td>
-                            <label for="size-input">Size: <br>
+                            <label for="size-input">Размер: <br>
                                 <select id="size-input">
-                                    <option value="tiny">Tiny</option>
-                                    <option value="small">Small</option>
-                                    <option value="medium" selected="selected">Medium</option>
-                                    <option value="large">Large</option>
-                                    <option value="huge">Huge</option>
-                                    <option value="gargantuan">Gargantuan</option>
+                                    <option value="tiny">Крошечный</option>
+                                    <option value="small">Маленький</option>
+                                    <option value="medium" selected="selected">Средний (5x5)</option>
+                                    <option value="large">Большой (10x10)</option>
+                                    <option value="huge">Огромный (15x15)</option>
+                                    <option value="gargantuan">Громадный (20x20)</option>
                                 </select>
                             </label>
                         </td>
                         <td>
-                            <label for="type-input">Type: <br>
+                            <label for="type-input">Тип: <br>
                                 <select id="type-input" onchange="FormFunctions.ShowHideTypeOther()">
-                                    <option value="aberration">Aberration</option>
-                                    <option value="beast">Beast</option>
-                                    <option value="celestial">Celestial</option>
-                                    <option value="construct">Construct</option>
-                                    <option value="dragon">Dragon</option>
-                                    <option value="elemental">Elemental</option>
-                                    <option value="fey">Fey</option>
-                                    <option value="fiend">Fiend</option>
-                                    <option value="giant">Giant</option>
-                                    <option value="humanoid" selected>Humanoid</option>
-                                    <option value="monstrosity">Monstrosity</option>
-                                    <option value="ooze">Ooze</option>
-                                    <option value="plant">Plant</option>
-                                    <option value="undead">Undead</option>
-                                    <option value="*">Other</option>
+                                    <option value="aberration">Аберрация</option>
+                                    <option value="beast">Зверь</option>
+                                    <option value="celestial">Небожитель</option>
+                                    <option value="construct">Конструкт</option>
+                                    <option value="dragon">Дракон</option>
+                                    <option value="elemental">Элементаль</option>
+                                    <option value="fey">Фея</option>
+                                    <option value="fiend">Исчадие</option>
+                                    <option value="giant">Гигант</option>
+                                    <option value="humanoid" selected>Гуманоид</option>
+                                    <option value="monstrosity">Монстр</option>
+                                    <option value="ooze">Слизь</option>
+                                    <option value="plant">Растение</option>
+                                    <option value="undead">Нежить</option>
+                                    <option value="*">Другой</option>
                                 </select>
                             </label>
                             <div><input id="other-type-input" type="text" value="swarm of Tiny beasts"></div>
                         </td>
                         <td>
-                            <label for="tag-input">Tag: <br>
+                            <label for="tag-input">Тэг: <br>
                                 <input id="tag-input" type="text"></label>
                         </td>
                         <td>
-                            <label for="alignment-input">Alignment: <br>
+                            <label for="alignment-input">Мировоззрение: <br>
                                 <input id="alignment-input" type="text" value="any alignment"></label>
                         </td>
                     </tr>
@@ -185,18 +261,18 @@
                     <tr>
                         <td></td>
                         <td>
-                            <div id="hitdice-input-prompt"><label for="hitdice-input">Hit Dice: <br><input type="number"
+                            <div id="hitdice-input-prompt"><label for="hitdice-input">Кости хитов: <br><input type="number"
                                         id="hitdice-input" min="1" max="99" value="5"></label></div>
-                            <div id="hp-text-input-prompt"><label for="hp-text-input">Hit Points:<br><input
+                            <div id="hp-text-input-prompt"><label for="hp-text-input">Хиты:<br><input
                                         id="hp-text-input" value="4 (1d8)"></label></div>
-                            <div id="custom-hp-box-prompt" class="box-note"><label for="custom-hp-input">(Custom HP:
+                            <div id="custom-hp-box-prompt" class="box-note"><label for="custom-hp-input">(Иные хиты:
                                     <input id="custom-hp-input" type="checkbox"
                                         onchange="FormFunctions.ShowHideCustomHP()">)</label></div>
                         </td>
                         <td>
-                            <label for="armor-input">Armor Type: <br>
+                            <label for="armor-input">Вид брони: <br>
                                 <select id="armor-input" onchange="FormFunctions.ShowHideOtherArmor()">
-                                    <option value="none" selected>None</option>
+                                    <option value="none" selected>Нет</option>
                                     <option value="natural armor">Natural Armor</option>
                                     <option value="mage armor">Mage Armor</option>
                                     <option value="padded armor">Padded</option>
@@ -213,16 +289,16 @@
                                     <option value="plate">Plate</option>
                                     <option value="other">Other</option>
                                 </select></label>
-                            <div id="shield-box-note" class="box-note"><label for="shield-input">(Shield: <input
+                            <div id="shield-box-note" class="box-note"><label for="shield-input">(Щит: <input
                                         id="shield-input" type="checkbox">)</label></div>
                         </td>
                         <td colspan="2">
-                            <div id="natarmor-prompt"><label for="natarmor-input">Natural Armor Bonus:<br><input
+                            <div id="natarmor-prompt"><label for="natarmor-input">Бонус:<br><input
                                         type="number" id="natarmor-input" min="1" max="99" value="3"></label></div>
                             <div id="otherarmor-prompt">
-                                <label for="otherarmor-input">Description: <input id="otherarmor-input" type="text"
-                                        value="10 (armor)"></label><br>
-                                <div id="otherarmor-box-note" class="box-note"><i>Use _ to italicize</i></div>
+                                <label for="otherarmor-input">Описание: <input id="otherarmor-input" type="text"
+                                        value="10 (броня)"></label><br>
+                                <div id="otherarmor-box-note" class="box-note"><i>Используйте _ для наклона текста</i></div>
                             </div>
                         </td>
                     </tr>
@@ -230,25 +306,25 @@
                 <br>
                 <table id="monster-speed-form">
                     <tr>
-                        <td class="normal-speed-col"><label for="speed-input">Speed:<br><input type="number"
-                                    id="speed-input" min="0" max="995" step="5" value="30"> ft.</label></td>
-                        <td class="normal-speed-col"><label for="burrow-speed-input">Burrow Speed:<br><input
+                        <td class="normal-speed-col"><label for="speed-input">Скорость:<br><input type="number"
+                                    id="speed-input" min="0" max="995" step="5" value="30"> футов</label></td>
+                        <td class="normal-speed-col"><label for="burrow-speed-input">Скорость копания:<br><input
                                     type="number" id="burrow-speed-input" min="0" max="995" step="5" value="0">
-                                ft.</label></td>
-                        <td class="normal-speed-col"><label for="climb-speed-input">Climb Speed:<br><input type="number"
-                                    id="climb-speed-input" min="0" max="995" step="5" value="0"> ft.</label></td>
+                                футов</label></td>
+                        <td class="normal-speed-col"><label for="climb-speed-input">Скорость лазания:<br><input type="number"
+                                    id="climb-speed-input" min="0" max="995" step="5" value="0"> футов</label></td>
                         <td class="normal-speed-col">
-                            <label for="fly-speed-input">Fly Speed:<br><input type="number" id="fly-speed-input" min="0"
+                            <label for="fly-speed-input">Скорость полёта:<br><input type="number" id="fly-speed-input" min="0"
                                     max="995" step="5" value="0" onchange="FormFunctions.ShowHideHoverBox()">
-                                ft.</label>
-                            <div id="hover-box-note" class="box-note"><label for="hover-input">(Hover: <input
+                                футов</label>
+                            <div id="hover-box-note" class="box-note"><label for="hover-input">(Парение: <input
                                         type="checkbox" id="hover-input">)</label></div>
                         </td>
-                        <td class="normal-speed-col"><label for="swim-speed-input">Swim Speed:<br><input type="number"
-                                    id="swim-speed-input" min="0" max="995" step="5" value="0"> ft.</label></td>
+                        <td class="normal-speed-col"><label for="swim-speed-input">Скорость плавания:<br><input type="number"
+                                    id="swim-speed-input" min="0" max="995" step="5" value="0"> футов</label></td>
                         <td colspan="5" class="custom-speed-col">
                             <label for="custom-speed-prompt" style="width: 100%;">Speed: <input id="custom-speed-prompt"
-                                    type="text" value="30 ft."></label><br>
+                                    type="text" value="30 футов"></label><br>
                         </td>
                         <td>
                             <br>
@@ -285,20 +361,70 @@
                 <hr>
                 <table id="properties-lists-form">
                     <tr>
-                        <td id="sthrows-form">
-                            <label for="sthrows-input">Saving Throws:</label><br>
-                            <select id="sthrows-input">
-                                <option value="str">Strength</option>
-                                <option value="dex">Dexterity</option>
-                                <option value="con">Constitution</option>
-                                <option value="int">Intelligence</option>
-                                <option value="wis">Wisdom</option>
-                                <option value="cha">Charisma</option>
-                            </select>
-                            <button type="button" onclick="InputFunctions.AddSthrowInput()">Proficient</button>
+                        <td>
+                            <label for="sthrows-input">Спасброски:</label><br>
+                            <form id="sthrows-input">
+                                <label for="str-col">
+                                    <input id="str-col"
+                                           type="checkbox"
+                                           name="columns-input"
+                                           value="str"
+                                           onclick="InputFunctions.AddSthrowInput(this.value)"
+                                    >
+                                    Сила</label>
+                                <label for="dex-col">
+                                    <input id="dex-col"
+                                           type="checkbox"
+                                           name="columns-input"
+                                           value="dex"
+                                           onclick="InputFunctions.AddSthrowInput(this.value)"
+                                    >
+                                    Ловкость</label>
+                                <label for="con-col">
+                                    <input id="con-col"
+                                           type="checkbox"
+                                           name="columns-input"
+                                           value="con"
+                                           onclick="InputFunctions.AddSthrowInput(this.value)"
+                                    >
+                                    Телосложение</label>
+                                <label for="int-col">
+                                    <input id="int-col"
+                                           type="checkbox"
+                                           name="columns-input"
+                                           value="int"
+                                           onclick="InputFunctions.AddSthrowInput(this.value)"
+                                    >
+                                    Интеллект</label>
+                                <label for="wis-col">
+                                    <input id="wis-col"
+                                           type="checkbox"
+                                           name="columns-input"
+                                           value="wis"
+                                           onclick="InputFunctions.AddSthrowInput(this.value)"
+                                    >
+                                    Мудрость</label>
+                                <label for="cha-col">
+                                    <input id="cha-col"
+                                           type="checkbox"
+                                           name="columns-input"
+                                           value="cha"
+                                           onclick="InputFunctions.AddSthrowInput(this.value)"
+                                    >
+                                    Харизма</label>
+                            </form>
+                            <!--<select id="sthrows-input">
+                                <option value="str">Сила</option>
+                                <option value="dex">Ловкость</option>
+                                <option value="con">Телосложение</option>
+                                <option value="int">Интеллект</option>
+                                <option value="wis">Мудрость</option>
+                                <option value="cha">Харизма</option>
+                            </select>-->
+                            <!--<button type="button" onclick="AddSthrowInput()">Proficient</button>
                             <div id="sthrows-input-section">
                                 <ul id="sthrows-input-list" class="statblock-list"></ul>
-                            </div>
+                            </div>-->
                         </td>
                         <td id="skills-form">
                             <label for="skills-input">Skills:</label><br>
@@ -360,26 +486,26 @@
                         <td id="damagetypes-form">
                             <label for="damagetypes-input">Damage Types:<br>
                                 <select id="damagetypes-input" onchange="FormFunctions.ShowHideDamageOther()">
-                                    <option value="acid">Acid</option>
-                                    <option value="bludgeoning">Bludgeoning</option>
+                                    <option value="Кислота">Кислота</option>
+                                    <option value="Дробящий">Дробящий</option>
                                     <option value="cold">Cold</option>
                                     <option value="fire">Fire</option>
                                     <option value="force">Force</option>
                                     <option value="lightning">Lightning</option>
                                     <option value="necrotic">Necrotic</option>
-                                    <option value="piercing">Piercing</option>
+                                    <option value="Колющий">Колющий</option>
                                     <option value="poison">Poison</option>
                                     <option value="psychic">Psychic</option>
                                     <option value="radiant">Radiant</option>
                                     <option value="slashing">Slashing</option>
                                     <option value="thunder">Thunder</option>
-                                    <option value="bludgeoning, piercing, and slashing from nonmagical attacks">
+                                    <option value="дробящий, колющий, и slashing from nonmagical attacks">
                                         Nonmagical Attacks</option>
                                     <option
-                                        value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered">
+                                        value="дробящий, колющий, и slashing from nonmagical attacks that aren't silvered">
                                         Non-Silvered Attacks</option>
                                     <option
-                                        value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't adamantine">
+                                        value="дробящий, колющий, и slashing from nonmagical attacks that aren't adamantine">
                                         Non-Adamantine Attacks</option>
                                     <option value="*">Other</option>
                                 </select>
@@ -397,41 +523,43 @@
                             </div>
                         </td>
                         <td id="languages-form">
-                            <label for="languages-input">Languages:<br>
+                            <label for="languages-input">Языки:<br>
                                 <select id="languages-input" onchange="FormFunctions.ShowHideLanguageOther()">
-                                    <option value="All">All</option>
-                                    <option value="Abyssal">Abyssal</option>
-                                    <option value="Aquan">Aquan</option>
-                                    <option value="Auran">Auran</option>
-                                    <option value="Celestial">Celestial</option>
-                                    <option value="Common">Common</option>
-                                    <option value="Deep Speech">Deep Speech</option>
-                                    <option value="Draconic">Draconic</option>
-                                    <option value="Dwarvish">Dwarvish</option>
-                                    <option value="Elvish">Elvish</option>
-                                    <option value="Giant">Giant</option>
-                                    <option value="Gnomish">Gnomish</option>
-                                    <option value="Goblin">Goblin</option>
-                                    <option value="Halfling">Halfling</option>
-                                    <option value="Ignan">Ignan</option>
-                                    <option value="Infernal">Infernal</option>
-                                    <option value="Orc">Orc</option>
-                                    <option value="Primordial">Primordial</option>
-                                    <option value="Sylvan">Sylvan</option>
-                                    <option value="Terran">Terran</option>
-                                    <option value="Undercommon">Undercommon</option>
-                                    <option value="*">Other</option>
+                                    <option value="Все">Все</option>
+                                    <option value="Бездны">Бездны</option>
+                                    <option value="Акван">Акван</option>
+                                    <option value="Ауран">Ауран</option>
+                                    <option value="Небесный">Небесный</option>
+                                    <option value="Общий">Общий</option>
+                                    <option value="Глубинная речь">Глубинная речь</option>
+                                    <option value="Драконий">Драконий</option>
+                                    <option value="Дворфийский">Дворфийский</option>
+                                    <option value="Эльфийский">Эльфийский</option>
+                                    <option value="Великаний">Великаний</option>
+                                    <option value="Гномий">Гномий</option>
+                                    <option value="Гоблинский">Гоблинский</option>
+                                    <option value="Язык полуросликов">Язык полуросликов</option>
+                                    <option value="Игнан">Игнан</option>
+                                    <option value="Инфернальный">Инфернальный</option>
+                                    <option value="Оркский">Оркский</option>
+                                    <option value="Первичный">Первичный</option>
+                                    <option value="Сильван">Сильван</option>
+                                    <option value="Терран">Терран</option>
+                                    <option value="Подземный">Подземный</option>
+                                    <option value="Друидический">Друидический</option>
+                                    <option value="Воровской жаргон">Воровской жаргон</option>
+                                    <option value="*">Другой</option>
                                 </select>
                             </label>
-                            <label for="telepathy-input" style="margin-left: .5rem;">Telepathy:<br><input type="number"
-                                    id="telepathy-input" min="0" max="995" step="5" value="0"> ft.</label>
+                            <label for="telepathy-input" style="margin-left: .5rem;">Телепатия:<br><input type="number"
+                                    id="telepathy-input" min="0" max="995" step="5" value="0"> футов</label>
                             <div>
                                 <input id="other-language-input" type="text" value="">
                             </div>
                             <div>
-                                <button type="button" onclick="InputFunctions.AddLanguageInput(true)">Speaks</button>
+                                <button type="button" onclick="InputFunctions.AddLanguageInput(true)">Говорит</button>
                                 <button type="button"
-                                    onclick="InputFunctions.AddLanguageInput(false)">Understands</button> but
+                                    onclick="InputFunctions.AddLanguageInput(false)">Понимает</button> but
                                 <input id="understands-but-input" type="text" value="can't speak">
                             </div>
                             <div id="languages-input-section">
@@ -444,18 +572,18 @@
                 <table id="senses-form">
                     <tr>
                         <td>
-                            <label for="blindsight-input">Blindsight: <input type="number" id="blindsight-input" min="0"
+                            <label for="blindsight-input">Слепое зрение: <input type="number" id="blindsight-input" min="0"
                                     max="995" step="5" value="0" onchange="FormFunctions.ShowHideBlindBox()">
-                                ft.</label><br>
-                            <div id="blind-box-note" class="box-note"><label for="blindness-input">(Blind beyond: <input
+                                футов</label><br>
+                            <div id="blind-box-note" class="box-note"><label for="blindness-input">(Слепой за пределами: <input
                                         type="checkbox" id="blindness-input">)</label></div>
                         </td>
-                        <td><label for="darkvision-input">Darkvision: <input type="number" id="darkvision-input" min="0"
-                                    max="995" step="5" value="0"> ft.</label></td>
-                        <td><label for="tremorsense-input">Tremorsense: <input type="number" id="tremorsense-input"
-                                    min="0" max="995" step="5" value="0"> ft.</label></td>
-                        <td><label for="truesight-input">Truesight: <input type="number" id="truesight-input" min="0"
-                                    max="995" step="5" value="0"> ft.</label></td>
+                        <td><label for="darkvision-input">Тёмное зрение: <input type="number" id="darkvision-input" min="0"
+                                    max="995" step="5" value="0"> футов</label></td>
+                        <td><label for="tremorsense-input">Чувство вибрации: <input type="number" id="tremorsense-input"
+                                    min="0" max="995" step="5" value="0"> футов</label></td>
+                        <td><label for="truesight-input">Истинное зрение: <input type="number" id="truesight-input" min="0"
+                                    max="995" step="5" value="0"> футов</label></td>
                     </tr>
                 </table>
                 <br>
@@ -553,75 +681,73 @@
                             Default</button></div>
                 </div>
                 <br>
-                <b>Abilities:</b>
-                <div><label for="abilities-name-input" style="width: 100%;">Name: <input id="abilities-name-input"
+                <b>Способности:</b>
+                <div><label for="abilities-name-input" style="width: 100%;">Название: <input id="abilities-name-input"
                             type="text" value="" style="margin-right: 40px; width: 30%;"></label></div>
                 <div><textarea id="abilities-desc-input" style="height: 10em;"></textarea></div>
                 <div>
                     <button type="button" id="add-ability-button"
-                        onclick="InputFunctions.AddAbilityInput('abilities')">Add Ability</button>
+                        onclick="InputFunctions.AddAbilityInput('abilities')">+ свойство</button>
                     <button type="button" id="add-action-button"
-                        onclick="InputFunctions.AddAbilityInput('actions')">Add Action</button>
+                        onclick="InputFunctions.AddAbilityInput('actions')">+ действие</button>
                     <button type="button" id="add-bonus-action-button"
-                        onclick="InputFunctions.AddAbilityInput('bonusActions')">Add Bonus Action</button>
+                        onclick="InputFunctions.AddAbilityInput('bonusActions')">+ бонусное действие</button>
                     <button type="button" id="add-reaction-button"
-                        onclick="InputFunctions.AddAbilityInput('reactions')">Add Reaction</button>
+                        onclick="InputFunctions.AddAbilityInput('reactions')">+ реакция</button>
                     <button type="button" id="add-legendary-button"
-                        onclick="InputFunctions.AddAbilityInput('legendaries')">Add Legendary Action</button>
+                        onclick="InputFunctions.AddAbilityInput('legendaries')">+ легендарное действие</button>
                     <button type="button" id="add-mythic-button"
-                        onclick="InputFunctions.AddAbilityInput('mythics')">Add Mythic Action</button>
+                        onclick="InputFunctions.AddAbilityInput('mythics')">+ мифическое действие</button>
                     <button type="button" id="add-lair-button"
-                        onclick="InputFunctions.AddAbilityInput('lairs')">Add Lair Action</button>
+                        onclick="InputFunctions.AddAbilityInput('lairs')">+ действие логова</button>
                     <button type="button" id="add-regional-button"
-                        onclick="InputFunctions.AddAbilityInput('regionals')">Add Regional Effect</button>
+                        onclick="InputFunctions.AddAbilityInput('regionals')">+ региональный эффект</button>
                 </div>
                 <div>
                     <select id="common-ability-input"></select>
                     <button type="button" id="add-common-ability-button"
-                        onclick="InputFunctions.AddCommonAbilityInput()">Use Preset</button>
+                        onclick="InputFunctions.AddCommonAbilityInput()">Использовать</button>
                 </div>
                 <div>
-                    <label for="format-helper-checkbox">Show Formatting Help: <input type="checkbox"
+                    <label for="format-helper-checkbox">Форматирование: <input type="checkbox"
                             id="format-helper-checkbox" onclick="FormFunctions.ShowHideFormatHelper()"></label>
                 </div>
                 <div id="format-helper" style="text-align: left; padding: 0 2rem;">
                     <br>
-                    <div>Use _ to italicize and ** to bold. For Spellcasting lists, use > to reverse-indent.</div>
+                    <div>Используйте _ для наклонённого текста и ** для жирного текста. Для списка заклинаний используйте > для обратного отступа.</div>
                     <br>
-                    <div><b>[MON]</b>: Shows the monster's name.</div>
-                    <div><b>[CHA]</b>: Shows the monster's charisma modifier.</div>
-                    <div><b>[3D6]</b>: Computes 3d6.</div>
-                    <div><b>[STR ATK]</b>: Calculates the modifier to the monster's attack roll for a strength-based
-                        attack.</div>
-                    <div><b>[DEX 2D8]</b>: Calculates the damage roll for a dexterity-based attack with damage dice 2d8.
-                    </div>
-                    <div><b>[WIS SAVE]</b>: Calculates the save DC vs the monster's wisdom.</div>
-                    <div><b>[3D6 + 1], [STR ATK - 2], [WIS SAVE + 3]</b>: Adds a modifier to the given values.</div>
+                    <div><b>[MON]</b>: Показывает имя монстра.</div>
+                    <div><b>[CHA]</b>: Показывает выбранный модификатор.</div>
+                    <div><b>[3D6]</b>: Рассчитывает среднее в 3к6.</div>
+                    <div><b>[STR ATK]</b>: Рассчитывает бросок атаки по Силе (выбранной характеристике).</div>
+                    <div><b>[DEX 2D8]</b>: Рассчитывает бросок урона 2к8 по Ловкости (выбранной характеристике).</div>
+                    <div><b>[WIS SAVE]</b>: Рассчитывает Сл спасброска по Мудрости (выбранной характеристике).</div>
+                    <div><b>[3D6 + 1], [STR ATK - 2], [WIS SAVE + 3]</b>: Добавляет бонус к рассчёту.</div>
                     <br>
                 </div>
                 <div style="text-align: left; min-height: 5rem;">
-                    <div id="abilities-input-section"><b>Abilities:</b><br>
+                    <div id="abilities-input-section"><b>Способности:</b><br>
                         <ul id="abilities-input-list" class="statblock-list"></ul>
                     </div>
-                    <div id="actions-input-section"><b>Actions:</b><br>
+                    <div id="actions-input-section"><b>Действия:</b><br>
                         <ul id="actions-input-list" class="statblock-list"></ul>
                     </div>
-                    <div id="bonusActions-input-section"><b>Bonus Actions:</b><br>
+                    <div id="bonusActions-input-section"><b>Бонусные действия:</b><br>
                         <ul id="bonusActions-input-list" class="statblock-list"></ul>
                     </div>
-                    <div id="reactions-input-section"><b>Reactions:</b><br>
+                    <div id="reactions-input-section"><b>Реакции:</b><br>
                         <ul id="reactions-input-list" class="statblock-list"></ul>
                     </div>
-                    <div id="legendaries-input-section"><b>Legendary Actions:</b><br>
+                    <div id="legendaries-input-section"><b>Легендарные действия:</b><br>
                         <ul id="legendaries-input-list" class="statblock-list"></ul>
                     </div>
-                    <div id="mythic-input-section"><b>Mythic Actions:</b><br>
+                    <div id="mythic-input-section"><b>Мифические действия:</b><br>
                         <ul id="mythics-input-list" class="statblock-list"></ul>
                     </div>
-                    <div id="lairs-input-section"><b>Lair Actions:</b><br>
+                    <div id="lairs-input-section"><b>Действия логова:</b><br>
                         <ul id="lairs-input-list" class="statblock-list"></ul>
                     </div>
-                    <div id="regionals-input-section"><b>Regional Effects:</b><br>
+                    <div id="regionals-input-section"><b>Региональные эффекты:</b><br>
                         <ul id="regionals-input-list" class="statblock-list"></ul>
                     </div>
                 </div>
