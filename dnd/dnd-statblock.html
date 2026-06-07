@@ -274,20 +274,20 @@
                                 <select id="armor-input" onchange="FormFunctions.ShowHideOtherArmor()">
                                     <option value="none" selected>Нет</option>
                                     <option value="natural armor">Natural Armor</option>
-                                    <option value="mage armor">Mage Armor</option>
-                                    <option value="padded armor">Padded</option>
-                                    <option value="leather armor">Leather</option>
-                                    <option value="studded leather">Studded Leather</option>
-                                    <option value="hide armor">Hide</option>
-                                    <option value="chain shirt">Chain Shirt</option>
-                                    <option value="scale mail">Scale Mail</option>
-                                    <option value="breastplate">Breastplate</option>
-                                    <option value="half plate">Half Plate</option>
-                                    <option value="ring mail">Ring Mail</option>
-                                    <option value="chain mail">Chain Mail</option>
-                                    <option value="splint">Splint</option>
-                                    <option value="plate">Plate</option>
-                                    <option value="other">Other</option>
+                                    <option value="mage armor">Магический доспех</option>
+                                    <option value="стёганый доспех">Стёганый доспех</option>
+                                    <option value="кожаный доспех">Кожаный</option>
+                                    <option value="проклёпанный кожаный доспех">Проклёпанный кожаный доспех</option>
+                                    <option value="шкурный доспех">Шкурный доспех</option>
+                                    <option value="кольчужная рубаха">Кольчужная рубаха</option>
+                                    <option value="чешуйчатый доспех">Чешуйчатый доспех</option>
+                                    <option value="кираса">Кираса</option>
+                                    <option value="полулаты">Полулаты</option>
+                                    <option value="колечный доспех">Колечный доспех</option>
+                                    <option value="кольчужный доспех">Кольчужный доспех</option>
+                                    <option value="пластинчатый доспех">Пластинчатый доспех</option>
+                                    <option value="латы">Латы</option>
+                                    <option value="other">Другое</option>
                                 </select></label>
                             <div id="shield-box-note" class="box-note"><label for="shield-input">(Щит: <input
                                         id="shield-input" type="checkbox">)</label></div>
@@ -323,13 +323,13 @@
                         <td class="normal-speed-col"><label for="swim-speed-input">Скорость плавания:<br><input type="number"
                                     id="swim-speed-input" min="0" max="995" step="5" value="0"> футов</label></td>
                         <td colspan="5" class="custom-speed-col">
-                            <label for="custom-speed-prompt" style="width: 100%;">Speed: <input id="custom-speed-prompt"
+                            <label for="custom-speed-prompt" style="width: 100%;">Скорость: <input id="custom-speed-prompt"
                                     type="text" value="30 футов"></label><br>
                         </td>
                         <td>
                             <br>
                             <div class="box-note">
-                                <label for="custom-speed-input">(Custom Speed: <input id="custom-speed-input"
+                                <label for="custom-speed-input">(Своя скорость: <input id="custom-speed-input"
                                         type="checkbox" onchange="FormFunctions.ShowHideCustomSpeed()"> )</label>
                             </div>
                         </td>
@@ -486,26 +486,26 @@
                         <td id="damagetypes-form">
                             <label for="damagetypes-input">Damage Types:<br>
                                 <select id="damagetypes-input" onchange="FormFunctions.ShowHideDamageOther()">
-                                    <option value="Кислота">Кислота</option>
-                                    <option value="Дробящий">Дробящий</option>
+                                    <option value="acid">Кислота</option>
+                                    <option value="bludgeoning">Дробящий</option>
                                     <option value="cold">Cold</option>
                                     <option value="fire">Fire</option>
                                     <option value="force">Force</option>
                                     <option value="lightning">Lightning</option>
                                     <option value="necrotic">Necrotic</option>
-                                    <option value="Колющий">Колющий</option>
+                                    <option value="piercing">Колющий</option>
                                     <option value="poison">Poison</option>
                                     <option value="psychic">Psychic</option>
                                     <option value="radiant">Radiant</option>
                                     <option value="slashing">Slashing</option>
                                     <option value="thunder">Thunder</option>
-                                    <option value="дробящий, колющий, и slashing from nonmagical attacks">
+                                    <option value="bludgeoning, piercing, and slashing from nonmagical attacks">
                                         Nonmagical Attacks</option>
                                     <option
-                                        value="дробящий, колющий, и slashing from nonmagical attacks that aren't silvered">
+                                        value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered">
                                         Non-Silvered Attacks</option>
                                     <option
-                                        value="дробящий, колющий, и slashing from nonmagical attacks that aren't adamantine">
+                                        value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't adamantine">
                                         Non-Adamantine Attacks</option>
                                     <option value="*">Other</option>
                                 </select>
@@ -525,26 +525,48 @@
                         <td id="languages-form">
                             <label for="languages-input">Языки:<br>
                                 <select id="languages-input" onchange="FormFunctions.ShowHideLanguageOther()">
+                                    <option value="All">Все</option>
+                                    <option value="Abyssal">Бездны</option>
+                                    <option value="Celestial">Небесный</option>
+                                    <option value="Common">Общий</option>
+                                    <option value="Deep Speech">Глубинная речь</option>
+                                    <option value="Draconic">Драконий</option>
+                                    <option value="Dwarvish">Дворфийский</option>
+                                    <option value="Elvish">Эльфийский</option>
+                                    <option value="Giant">Великаний</option>
+                                    <option value="Gnomish">Гномий</option>
+                                    <option value="Goblin">Гоблинский</option>
+                                    <option value="Halfling">Язык полуросликов</option>
+                                    <option value="Ignan">Игнан</option>
+                                    <option value="Infernal">Инфернальный</option>
+                                    <option value="Orc">Оркский</option>
+                                    <option value="Primordial">Первичный</option>
+                                    <option value="Sylvan">Сильван</option>
+                                    <option value="Terran">Терран</option>
+                                    <option value="Aquan">Акван</option>
+                                    <option value="Auran">Ауран</option>
+                                    <option value="Undercommon">Undercommon</option>
+
                                     <option value="Все">Все</option>
-                                    <option value="Бездны">Бездны</option>
-                                    <option value="Акван">Акван</option>
-                                    <option value="Ауран">Ауран</option>
-                                    <option value="Небесный">Небесный</option>
-                                    <option value="Общий">Общий</option>
-                                    <option value="Глубинная речь">Глубинная речь</option>
-                                    <option value="Драконий">Драконий</option>
-                                    <option value="Дворфийский">Дворфийский</option>
-                                    <option value="Эльфийский">Эльфийский</option>
-                                    <option value="Великаний">Великаний</option>
-                                    <option value="Гномий">Гномий</option>
-                                    <option value="Гоблинский">Гоблинский</option>
-                                    <option value="Язык полуросликов">Язык полуросликов</option>
-                                    <option value="Игнан">Игнан</option>
-                                    <option value="Инфернальный">Инфернальный</option>
-                                    <option value="Оркский">Оркский</option>
-                                    <option value="Первичный">Первичный</option>
-                                    <option value="Сильван">Сильван</option>
-                                    <option value="Терран">Терран</option>
+                                    <option value="Бездны"></option>
+                                    <option value="Акван"></option>
+                                    <option value="Ауран"></option>
+                                    <option value="Небесный"></option>
+                                    <option value="Общий"></option>
+                                    <option value="Глубинная речь"></option>
+                                    <option value="Драконий"></option>
+                                    <option value="Дворфийский"></option>
+                                    <option value="Эльфийский"></option>
+                                    <option value="Великаний"></option>
+                                    <option value="Гномий"></option>
+                                    <option value="Гоблинский"></option>
+                                    <option value="Язык полуросликов"></option>
+                                    <option value="Игнан"></option>
+                                    <option value="Инфернальный"></option>
+                                    <option value="Оркский"></option>
+                                    <option value="Первичный"></option>
+                                    <option value="Сильван"></option>
+                                    <option value="Терран"></option>
                                     <option value="Подземный">Подземный</option>
                                     <option value="Друидический">Друидический</option>
                                     <option value="Воровской жаргон">Воровской жаргон</option>

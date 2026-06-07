@@ -20,7 +20,7 @@ var mon = {
     customHP: false,
     customSpeed: false,
     hpText: "4 (1d8)",
-    speedDesc: "30 ft.",
+    speedDesc: "30 футов",
     strPoints: 10,
     dexPoints: 10,
     conPoints: 10,
@@ -74,6 +74,31 @@ const LEGENDARY = "LEGENDARY"
 const MYTHIC = "MYTHIC"
 const REGIONAL = "REGIONAL"
 const LAIR = "LAIR"
+
+const RU_LANGUAGES = {
+    Abyssal: "Бездны",
+    Celestial: "Небесный",
+    Common: "Общий",
+    "Deep Speech": "Глубинная речь",
+    Draconic: "Драконий",
+    Dwarvish: "Дворфийский",
+    Elvish: "Эльфийский",
+    Giant: "Великаний",
+    Gnomish: "Гномий",
+    Goblin: "Гоблинский",
+    Halfling: "Язык полуросликов",
+    Ignan: "Игнан",
+    Infernal: "Инфернальный",
+    Orc: "Оркский",
+    Primordial: "Первичный",
+    Sylvan: "Сильван",
+    Terran: "Терран",
+    Aquan: "Акван",
+    Auran: "Ауран",
+    Undercommon: "Подземный",
+    Druid: "Друидический",
+    Thief: "Воровской жаргон"
+};
 
 // Save function
 var TrySaveFile = () => {
@@ -176,8 +201,10 @@ function UpdateStatblock(moveSeparationPoint) {
 
     // Name and type
     $("#monster-name").html(StringFunctions.RemoveHtmlTags(mon.name));
-    $("#monster-type").html(StringFunctions.StringCapitalize(StringFunctions.RemoveHtmlTags(mon.size) + " " + mon.type +
-        (mon.tag == "" ? ", " : " (" + mon.tag + "), ") + mon.alignment));
+    $("#monster-type").html(StringFunctions.StringCapitalize(
+        StringFunctions.RemoveHtmlTags(mon.size) + " " + mon.type +
+        (mon.tag == "" ? ", " : " (" + mon.tag + "), ") + mon.alignment)
+    );
 
     // Armor Class
     $("#armor-class").html(StringFunctions.FormatString(StringFunctions.RemoveHtmlTags(StringFunctions.GetArmorData())));
@@ -937,6 +964,7 @@ var InputFunctions = {
         }
         $.getJSON("https://api.open5e.com/v1/monsters/" + name, function (jsonArr) {
             GetVariablesFunctions.SetPreset(jsonArr);
+            NormalizeLanguages();
             FormFunctions.SetForms();
             UpdateStatblock();
         })
@@ -1052,9 +1080,11 @@ function setSavingThrow(name, enabled=true) {
     console.log("FUNCTION: setSavingThrow: " + name + "; " + mon[name+"Points"] + "; " + enabled);
     if (enabled) {
         console.log("enabled");
+        $("#" + name + "-col").prop("checked", true);
         $("#" + name + "save").html(StringFunctions.RemoveHtmlTags(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[name+"Points"]) + CrFunctions.GetProf())))
     }else{
         console.log("not enabled");
+        $("#" + name + "-col").prop("checked", false);
         $("#" + name + "save").html(StringFunctions.RemoveHtmlTags(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[name+"Points"]))))
         console.log(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[name+"Points"])) + "; " + mon[name+"Points"])
     }
@@ -1182,13 +1212,13 @@ var GetVariablesFunctions = {
         if (armorDescData) {
             mon.armorName = armorDescData[0];
             // If we have a shield and nothing else
-            if (armorDescData.length == 1 && armorDescData[0].trim() == "shield") {
+            if (armorDescData.length === 1 && armorDescData[0].trim() === "shield") {
                 mon.shieldBonus = 2;
                 mon.armorName = "none";
             } else {
                 // If we have a shield in addition to something else
                 if (armorDescData.length > 1) {
-                    if (armorDescData[1].trim() == "shield") {
+                    if (armorDescData[1].trim() === "shield") {
                         mon.shieldBonus = 2;
                         mon.armorName = armorDescData[0];
                     }
@@ -1198,14 +1228,14 @@ var GetVariablesFunctions = {
                 }
 
                 // Is it natural armor?
-                if (mon.armorName == "natural armor") {
+                if (mon.armorName === "natural armor") {
                     let natArmorBonusCheck = armorAcData - MathFunctions.GetAC("none");
                     if (natArmorBonusCheck > 0)
                         mon.natArmorBonus = natArmorBonusCheck;
 
                     // Weird edge case where the monster has a natural armor bonus of <= 0
                     else
-                        mon.armorName = "other";
+                        mon.armorName = "другое";
                 }
 
                 // Is it another type of armor we know?
@@ -1214,11 +1244,11 @@ var GetVariablesFunctions = {
 
                 // Is it mage armor?
                 else if (mon.armorName.includes("mage armor"))
-                    mon.armorName = "mage armor";
+                    mon.armorName = "магический доспех";
 
                 // We have no idea what this armor is
                 else
-                    mon.armorName = "other";
+                    mon.armorName = "другое";
             }
         } else
             mon.armorName = (armorAcData == MathFunctions.GetAC("none") ? "none" : "other");
@@ -1256,7 +1286,7 @@ var GetVariablesFunctions = {
 
         if (preset.speed.hasOwnProperty("notes")) {
             mon.customSpeed = true;
-            mon.speedDesc = preset.speed.walk + " ft. (" + preset.speed.notes + ")";
+            mon.speedDesc = preset.speed.walk + " футов (" + preset.speed.notes + ")";
         } else {
             mon.customSpeed = false;
             mon.speedDesc = StringFunctions.GetSpeed();
@@ -1510,7 +1540,7 @@ var GetVariablesFunctions = {
     },
 
     AddPresetDamage: function (string, type) {
-        if (string.length == 0) return;
+        if (string.length === 0) return;
         let arr = string.split(";");
         if (arr[0].toLowerCase().includes("magic"))
             this.AddDamageType(arr[0].trim(), type);
@@ -1530,13 +1560,13 @@ var GetVariablesFunctions = {
     },
 
     AddLanguage: function (languageName, speaks) {
-        if (languageName == "") return;
-        if (languageName == "*") {
+        if (languageName === "") return;
+        if (languageName === "*") {
             languageName = $("#other-language-input").val().trim();
-            if (languageName.length == 0) return;
+            if (languageName.length === 0) return;
         }
         if (mon.languages.length > 0) {
-            if (languageName.toLowerCase() == "all" || mon.languages[0].name.toLowerCase() == "all")
+            if (languageName.toLowerCase() === "all" || mon.languages[0].name.toLowerCase() === "all")
                 mon.languages = [];
         }
         ArrayFunctions.ArrayInsert(mon.languages, {
@@ -1564,7 +1594,7 @@ var GetVariablesFunctions = {
         abilityDesc = abilityDesc.trim();
 
         // In case of spellcasting
-        if (arrName == "abilities" && abilityName.toLowerCase().includes("spellcasting") && abilityDesc.includes("\n")) {
+        if (arrName === "abilities" && abilityName.toLowerCase().includes("spellcasting") && abilityDesc.includes("\n")) {
             abilityDesc = abilityDesc.split("\u2022").join(""), // Remove bullet points
                 spellcastingAbility =
                 abilityDesc.toLowerCase().includes("intelligence") ? "INT" :
@@ -1611,7 +1641,7 @@ var GetVariablesFunctions = {
         }
 
         // In case of attacks
-        if (arrName == "actions" && abilityDesc.toLowerCase().includes("attack")) {
+        if (arrName === "actions" && abilityDesc.toLowerCase().includes("attack")) {
             // Italicize the correct parts of attack-type actions
             let lowercaseDesc = abilityDesc.toLowerCase();
             for (let index = 0; index < data.attackTypes.length; index++) {
@@ -1619,20 +1649,20 @@ var GetVariablesFunctions = {
                 if (lowercaseDesc.includes(attackType)) {
                     let indexOfStart = lowercaseDesc.indexOf(attackType),
                         indexOfHit = lowercaseDesc.indexOf("hit:");
-                    if (indexOfStart != 0) break;
+                    if (indexOfStart !== 0) break;
                     abilityDesc = "_" + abilityDesc.slice(0, attackType.length) + "_" + abilityDesc.slice(attackType.length, indexOfHit) + "_" + abilityDesc.slice(indexOfHit, indexOfHit + 4) + "_" + abilityDesc.slice(indexOfHit + 4);
                     break;
                 }
             }
         }
 
-        if (abilityName.length != 0 && abilityDesc.length != 0)
+        if (abilityName.length !== 0 && abilityDesc.length !== 0)
             this.AddAbility(arrName, abilityName, abilityDesc);
     },
 
     // Return the default legendary description
     LegendaryDescriptionDefault: function () {
-        mon.legendariesDescription = "The " + mon.name.toLowerCase() + " can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature's turn. The " + mon.name.toLowerCase() + " regains spent legendary actions at the start of its turn.";
+        mon.legendariesDescription = "У этого существа есть 3 использования Легендарных действий (или 4 использования в его Логове); оно может немедленно после окончания хода другого существа потратить одно использование, чтобы совершить одно из следующих действий. Существо восполняет все потраченные использования в начале каждого своего хода.";
     },
 
     // Return the default mythic description
@@ -1660,7 +1690,18 @@ var GetVariablesFunctions = {
         mon.regionalDescriptionEnd = "If the " + mon.name.toLowerCase() + " dies, the first two effects fade over the course of 3d10 days.";
     }
 }
+function NormalizeLanguages() {
 
+    mon.languages = (mon.languages || []).map(l => {
+
+        const name = typeof l === "string" ? l : l.name;
+
+        return {
+            key: name,
+            name: RU_LANGUAGES[name] || name
+        };
+    });
+}
 // Functions that return a string
 var StringFunctions = {
     // Add a + if the ability bonus is non-negative
@@ -1672,10 +1713,10 @@ var StringFunctions = {
             return mon.otherArmorDesc;
         if (mon.armorName == "mage armor") {
             let mageAC = MathFunctions.GetAC(mon.armorName);
-            return mageAC + " (" + (mon.shieldBonus > 0 ? "shield, " : "") + (mageAC + 3) + " with _mage armor_)";
+            return mageAC + " (" + (mon.shieldBonus > 0 ? "щит, " : "") + (mageAC + 3) + " с _магическим доспехом_)";
         }
         if (mon.armorName == "none")
-            return MathFunctions.GetAC(mon.armorName) + (mon.shieldBonus > 0 ? " (shield)" : "");
+            return MathFunctions.GetAC(mon.armorName) + (mon.shieldBonus > 0 ? " (щит)" : "");
         return this.GetArmorString(mon.armorName, MathFunctions.GetAC(mon.armorName));
     },
 
@@ -1703,27 +1744,27 @@ var StringFunctions = {
     GetSpeed: function () {
         if (mon.customSpeed)
             return mon.speedDesc;
-        let speedsDisplayArr = [mon.speed + " ft."];
-        if (mon.burrowSpeed > 0) speedsDisplayArr.push("burrow " + mon.burrowSpeed + " ft.");
-        if (mon.climbSpeed > 0) speedsDisplayArr.push("climb " + mon.climbSpeed + " ft.");
-        if (mon.flySpeed > 0) speedsDisplayArr.push("fly " + mon.flySpeed + " ft." + (mon.hover ? " (hover)" : ""));
-        if (mon.swimSpeed > 0) speedsDisplayArr.push("swim " + mon.swimSpeed + " ft.");
+        let speedsDisplayArr = [mon.speed + " футов"];
+        if (mon.burrowSpeed > 0) speedsDisplayArr.push("рытьё " + mon.burrowSpeed + " футов");
+        if (mon.climbSpeed > 0) speedsDisplayArr.push("лазание " + mon.climbSpeed + " футов");
+        if (mon.flySpeed > 0) speedsDisplayArr.push("полёт " + mon.flySpeed + " футов" + (mon.hover ? " (парение)" : ""));
+        if (mon.swimSpeed > 0) speedsDisplayArr.push("плаванье " + mon.swimSpeed + " футов");
         return speedsDisplayArr.join(", ")
     },
 
     GetSenses: function () {
         let sensesDisplayArr = [];
-        if (mon.blindsight > 0) sensesDisplayArr.push("blindsight " + mon.blindsight + " ft." + (mon.blind ? " (blind beyond this radius)" : ""));
-        if (mon.darkvision > 0) sensesDisplayArr.push("darkvision " + mon.darkvision + " ft.");
-        if (mon.tremorsense > 0) sensesDisplayArr.push("tremorsense " + mon.tremorsense + " ft.");
-        if (mon.truesight > 0) sensesDisplayArr.push("truesight " + mon.truesight + " ft.");
+        if (mon.blindsight > 0) sensesDisplayArr.push("слепое зрение " + mon.blindsight + " футов" + (mon.blind ? " (слеп за пределами)" : ""));
+        if (mon.darkvision > 0) sensesDisplayArr.push("тёмное зрение " + mon.darkvision + " футов");
+        if (mon.tremorsense > 0) sensesDisplayArr.push("чувство вибрации " + mon.tremorsense + " футов");
+        if (mon.truesight > 0) sensesDisplayArr.push("истинное зрение " + mon.truesight + " футов");
 
         // Passive Perception
         let ppData = ArrayFunctions.FindInList(mon.skills, "Perception"),
             pp = 10 + MathFunctions.PointsToBonus(mon.wisPoints);
         if (ppData != null)
             pp += CrFunctions.GetProf() * (ppData.hasOwnProperty("note") ? 2 : 1);
-        sensesDisplayArr.push("passive Perception " + pp);
+        sensesDisplayArr.push("пассивное Внимание " + pp);
         return sensesDisplayArr.join(", ");
     },
 
@@ -1804,22 +1845,22 @@ var StringFunctions = {
         if (understandsLanguages.length > 0) {
             if (understandsLanguages.length > 1) {
                 if (understandsLanguages.length > 2) {
-                    languageDisplayArr.push("understands " + understandsLanguages[0].name);
+                    languageDisplayArr.push("понимает " + understandsLanguages[0].name);
                     for (let index = 1; index < understandsLanguages.length; index++)
                         languageDisplayArr.push(understandsLanguages[index].name);
-                    languageDisplayArr[languageDisplayArr.length - 1] = " and " + languageDisplayArr[languageDisplayArr.length - 1];
+                    languageDisplayArr[languageDisplayArr.length - 1] = " и " + languageDisplayArr[languageDisplayArr.length - 1];
                 }
                 else
-                    languageDisplayArr.push("understands " + understandsLanguages[0].name + " and " + understandsLanguages[1].name);
+                    languageDisplayArr.push("понимает " + understandsLanguages[0].name + " и " + understandsLanguages[1].name);
             }
             else
-                languageDisplayArr.push("understands " + understandsLanguages[0].name);
+                languageDisplayArr.push("понимает " + understandsLanguages[0].name);
             if (mon.understandsBut && mon.understandsBut.trim().length > 0)
                 languageDisplayArr[languageDisplayArr.length - 1] += " but " + mon.understandsBut.trim();
         }
 
         if (mon.telepathy > 0)
-            languageDisplayArr.push("telepathy " + mon.telepathy + " ft.");
+            languageDisplayArr.push("телепатия " + mon.telepathy + " фт.");
         else if (languageDisplayArr.length == 0)
             languageDisplayArr.push("&mdash;");
 
@@ -1830,14 +1871,14 @@ var StringFunctions = {
                 "arr": arr
             })
         };
-        pushArr("Saving Throws", sthrowsDisplayArr);
-        pushArr("Skills", skillsDisplayArr);
-        pushArr("Damage Vulnerabilities", vulnerableDisplayString);
-        pushArr("Damage Resistances", resistantDisplayString);
-        pushArr("Damage Immunities", immuneDisplayString);
-        pushArr("Condition Immunities", conditionsDisplayArr);
-        pushArr("Senses", sensesDisplayString);
-        pushArr("Languages", languageDisplayArr);
+        pushArr("Спасброски", sthrowsDisplayArr);
+        pushArr("Навыки", skillsDisplayArr);
+        pushArr("Уязвимости", vulnerableDisplayString);
+        pushArr("Сопротивления", resistantDisplayString);
+        pushArr("Иммунитет (урон)", immuneDisplayString);
+        pushArr("Иммунитет (состояния)", conditionsDisplayArr);
+        pushArr("Чувства", sensesDisplayString);
+        pushArr("Языки", languageDisplayArr);
 
         return propertiesDisplayArr;
     },
@@ -1940,11 +1981,11 @@ var MathFunctions = {
         let armor = data.armors[armorNameCheck],
             dexBonus = MathFunctions.PointsToBonus(mon.dexPoints);
         if (armor) {
-            if (armor.type == "light") return armor.ac + dexBonus + mon.shieldBonus;
-            if (armor.type == "medium") return armor.ac + Math.min(dexBonus, 2) + mon.shieldBonus;
-            if (armor.type == "heavy") return armor.ac + mon.shieldBonus;
-            if (armorNameCheck == "natural armor") return 10 + dexBonus + mon.natArmorBonus + mon.shieldBonus;
-            if (armorNameCheck == "other") return "other";
+            if (armor.type === "light") return armor.ac + dexBonus + mon.shieldBonus;
+            if (armor.type === "medium") return armor.ac + Math.min(dexBonus, 2) + mon.shieldBonus;
+            if (armor.type === "heavy") return armor.ac + mon.shieldBonus;
+            if (armorNameCheck === "natural armor") return 10 + dexBonus + mon.natArmorBonus + mon.shieldBonus;
+            if (armorNameCheck === "other") return "other";
         }
         return 10 + dexBonus + mon.shieldBonus;
     },
