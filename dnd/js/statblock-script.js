@@ -164,6 +164,7 @@ const RU_CONDITIONS = {
 }
 
 TRANSLATIONS = {
+    languages: RU_LANGUAGES,
     skills: RU_SKILLS,
     damage: RU_DAMAGE,
     conditions: RU_CONDITIONS,
@@ -958,7 +959,7 @@ var FormFunctions = {
                 // || capitalize ? StringFunctions.StringCapitalize(element.name) : element.name,
                 note = element.hasOwnProperty("note") ? element.note : "";
             if (arrName == "languages") {
-                content = "<b>" + StringFunctions.FormatString(elementName + note, false) + (element.speaks || element.speaks == undefined ? "" : " (understands)") + "</b>";
+                content = "<b>" + StringFunctions.FormatString(elementName + note, false) + (element.speaks || element.speaks == undefined ? "" : " (понимает)") + "</b>";
             }
             else
                 content = "<b>" + StringFunctions.FormatString(elementName + note, false) + (element.hasOwnProperty("desc") ?
@@ -1917,21 +1918,21 @@ var StringFunctions = {
                 understandsLanguages.push(language);
         }
         for (let index = 0; index < speaksLanguages.length; index++)
-            languageDisplayArr.push(speaksLanguages[index].name);
+            languageDisplayArr.push(Translate("languages", speaksLanguages[index].name));
 
         if (understandsLanguages.length > 0) {
             if (understandsLanguages.length > 1) {
                 if (understandsLanguages.length > 2) {
-                    languageDisplayArr.push("понимает " + understandsLanguages[0].name);
+                    languageDisplayArr.push("понимает " + Translate("languages", understandsLanguages[0].name));
                     for (let index = 1; index < understandsLanguages.length; index++)
-                        languageDisplayArr.push(understandsLanguages[index].name);
+                        languageDisplayArr.push(Translate("languages", understandsLanguages[index].name));
                     languageDisplayArr[languageDisplayArr.length - 1] = " и " + languageDisplayArr[languageDisplayArr.length - 1];
                 }
                 else
-                    languageDisplayArr.push("понимает " + understandsLanguages[0].name + " и " + understandsLanguages[1].name);
+                    languageDisplayArr.push("понимает " + Translate("languages", understandsLanguages[0].name) + " и " + Translate("languages", understandsLanguages[1].name));
             }
             else
-                languageDisplayArr.push("понимает " + understandsLanguages[0].name);
+                languageDisplayArr.push("понимает " + Translate("languages", understandsLanguages[0].name));
             if (mon.understandsBut && mon.understandsBut.trim().length > 0)
                 languageDisplayArr[languageDisplayArr.length - 1] += " but " + mon.understandsBut.trim();
         }
