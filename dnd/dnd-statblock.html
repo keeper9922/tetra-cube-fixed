@@ -273,7 +273,7 @@
                             <label for="armor-input">Вид брони: <br>
                                 <select id="armor-input" onchange="FormFunctions.ShowHideOtherArmor()">
                                     <option value="none" selected>Нет</option>
-                                    <option value="natural armor">Natural Armor</option>
+                                    <option value="природный доспех">Природный доспех</option>
                                     <option value="mage armor">Магический доспех</option>
                                     <option value="стёганый доспех">Стёганый доспех</option>
                                     <option value="кожаный доспех">Кожаный</option>
@@ -338,22 +338,22 @@
                 <hr>
                 <table id="monster-stats-form">
                     <tr>
-                        <td><label for="str-input">STR: <br><input type="number" id="str-input" min="1" max="99"
+                        <td><label for="str-input">СИЛ: <br><input type="number" id="str-input" min="1" max="99"
                                     value="10" onchange="FormFunctions.ChangeBonus('str')"> (<span
                                     id="strbonus"></span>)</label></td>
-                        <td><label for="dex-input">DEX: <br><input type="number" id="dex-input" min="1" max="99"
+                        <td><label for="dex-input">ЛОВ: <br><input type="number" id="dex-input" min="1" max="99"
                                     value="10" onchange="FormFunctions.ChangeBonus('dex')"> (<span
                                     id="dexbonus"></span>)</label></td>
-                        <td><label for="con-input">CON: <br><input type="number" id="con-input" min="1" max="99"
+                        <td><label for="con-input">ТЕЛ: <br><input type="number" id="con-input" min="1" max="99"
                                     value="10" onchange="FormFunctions.ChangeBonus('con')"> (<span
                                     id="conbonus"></span>)</label></td>
-                        <td><label for="int-input">INT: <br><input type="number" id="int-input" min="1" max="99"
+                        <td><label for="int-input">ИНТ: <br><input type="number" id="int-input" min="1" max="99"
                                     value="10" onchange="FormFunctions.ChangeBonus('int')"> (<span
                                     id="intbonus"></span>)</label></td>
-                        <td><label for="wis-input">WIS: <br><input type="number" id="wis-input" min="1" max="99"
+                        <td><label for="wis-input">МДР: <br><input type="number" id="wis-input" min="1" max="99"
                                     value="10" onchange="FormFunctions.ChangeBonus('wis')"> (<span
                                     id="wisbonus"></span>)</label></td>
-                        <td><label for="cha-input">CHA: <br><input type="number" id="cha-input" min="1" max="99"
+                        <td><label for="cha-input">ХАР: <br><input type="number" id="cha-input" min="1" max="99"
                                     value="10" onchange="FormFunctions.ChangeBonus('cha')"> (<span
                                     id="chabonus"></span>)</label></td>
                     </tr>
@@ -364,54 +364,68 @@
                         <td>
                             <label for="sthrows-input">Спасброски:</label><br>
                             <form id="sthrows-input">
-                                <label for="str-col">
-                                    <input id="str-col"
-                                           type="checkbox"
-                                           name="columns-input"
-                                           value="str"
-                                           onclick="InputFunctions.AddSthrowInput(this.value)"
-                                    >
-                                    Сила</label>
-                                <label for="dex-col">
-                                    <input id="dex-col"
-                                           type="checkbox"
-                                           name="columns-input"
-                                           value="dex"
-                                           onclick="InputFunctions.AddSthrowInput(this.value)"
-                                    >
-                                    Ловкость</label>
-                                <label for="con-col">
-                                    <input id="con-col"
-                                           type="checkbox"
-                                           name="columns-input"
-                                           value="con"
-                                           onclick="InputFunctions.AddSthrowInput(this.value)"
-                                    >
-                                    Телосложение</label>
-                                <label for="int-col">
-                                    <input id="int-col"
-                                           type="checkbox"
-                                           name="columns-input"
-                                           value="int"
-                                           onclick="InputFunctions.AddSthrowInput(this.value)"
-                                    >
-                                    Интеллект</label>
-                                <label for="wis-col">
-                                    <input id="wis-col"
-                                           type="checkbox"
-                                           name="columns-input"
-                                           value="wis"
-                                           onclick="InputFunctions.AddSthrowInput(this.value)"
-                                    >
-                                    Мудрость</label>
-                                <label for="cha-col">
-                                    <input id="cha-col"
-                                           type="checkbox"
-                                           name="columns-input"
-                                           value="cha"
-                                           onclick="InputFunctions.AddSthrowInput(this.value)"
-                                    >
-                                    Харизма</label>
+                                <ul>
+                                    <li>
+                                        <label for="str-col">
+                                            <input id="str-col"
+                                                   type="checkbox"
+                                                   name="columns-input"
+                                                   value="str"
+                                                   onclick="InputFunctions.AddSthrowInput(this.value)"
+                                            >
+                                            Сила</label>
+                                    </li>
+                                    <li>
+                                        <label for="dex-col">
+                                            <input id="dex-col"
+                                                   type="checkbox"
+                                                   name="columns-input"
+                                                   value="dex"
+                                                   onclick="InputFunctions.AddSthrowInput(this.value)"
+                                            >
+                                            Ловкость</label>
+                                    </li>
+                                    <li>
+                                        <label for="con-col">
+                                            <input id="con-col"
+                                                   type="checkbox"
+                                                   name="columns-input"
+                                                   value="con"
+                                                   onclick="InputFunctions.AddSthrowInput(this.value)"
+                                            >
+                                            Телосложение</label>
+                                    </li>
+                                    <li>
+                                        <label for="int-col">
+                                            <input id="int-col"
+                                                   type="checkbox"
+                                                   name="columns-input"
+                                                   value="int"
+                                                   onclick="InputFunctions.AddSthrowInput(this.value)"
+                                            >
+                                            Интеллект</label>
+                                    </li>
+                                    <li>
+                                        <label for="wis-col">
+                                            <input id="wis-col"
+                                                   type="checkbox"
+                                                   name="columns-input"
+                                                   value="wis"
+                                                   onclick="InputFunctions.AddSthrowInput(this.value)"
+                                            >
+                                            Мудрость</label>
+                                    </li>
+                                    <li>
+                                        <label for="cha-col">
+                                            <input id="cha-col"
+                                                   type="checkbox"
+                                                   name="columns-input"
+                                                   value="cha"
+                                                   onclick="InputFunctions.AddSthrowInput(this.value)"
+                                            >
+                                            Харизма</label>
+                                    </li>
+                                </ul>
                             </form>
                             <!--<select id="sthrows-input">
                                 <option value="str">Сила</option>
@@ -427,53 +441,53 @@
                             </div>-->
                         </td>
                         <td id="skills-form">
-                            <label for="skills-input">Skills:</label><br>
+                            <label for="skills-input">Навыки:</label><br>
                             <select id="skills-input">
-                                <option value="acrobatics">Acrobatics</option>
-                                <option value="animal Handling">Animal Handling</option>
-                                <option value="arcana">Arcana</option>
-                                <option value="athletics">Athletics</option>
-                                <option value="deception">Deception</option>
-                                <option value="history">History</option>
-                                <option value="insight">Insight</option>
-                                <option value="intimidation">Intimidation</option>
-                                <option value="investigation">Investigation</option>
-                                <option value="medicine">Medicine</option>
-                                <option value="nature">Nature</option>
-                                <option value="perception">Perception</option>
-                                <option value="performance">Performance</option>
-                                <option value="persuasion">Persuasion</option>
-                                <option value="religion">Religion</option>
-                                <option value="sleight of Hand">Sleight of Hand</option>
-                                <option value="stealth">Stealth</option>
-                                <option value="survival">Survival</option>
+                                <option value="acrobatics">Акробатика</option>
+                                <option value="animal Handling">Дрессировка</option>
+                                <option value="arcana">Тайны магии</option>
+                                <option value="athletics">Атлетика</option>
+                                <option value="deception">Обман</option>
+                                <option value="history">История</option>
+                                <option value="insight">Проницательность</option>
+                                <option value="intimidation">Запугивание</option>
+                                <option value="investigation">Анализ</option>
+                                <option value="medicine">Медицина</option>
+                                <option value="nature">Природа</option>
+                                <option value="perception">Внимание</option>
+                                <option value="performance">Выступление</option>
+                                <option value="persuasion">Убеждение</option>
+                                <option value="religion">Религия</option>
+                                <option value="sleight of Hand">Ловкость рук</option>
+                                <option value="stealth">Скрытность</option>
+                                <option value="survival">Выживание</option>
                             </select>
-                            <button type="button" onclick="InputFunctions.AddSkillInput()">Proficient</button>
-                            <button type="button" onclick="InputFunctions.AddSkillInput(' (ex)')">Expert</button>
+                            <button type="button" onclick="InputFunctions.AddSkillInput()">Владеет</button>
+                            <button type="button" onclick="InputFunctions.AddSkillInput(' (эксперт)')">Экспертность</button>
                             <div id="skills-input-section">
                                 <ul id="skills-input-list" class="statblock-list"></ul>
                             </div>
                         </td>
                         <td id="conditions-form">
-                            <label for="conditions-input">Condition Immunities: </label><br>
+                            <label for="conditions-input">Иммунитет к состояниям: </label><br>
                             <select id="conditions-input">
-                                <option value="blinded">Blinded</option>
-                                <option value="charmed">Charmed</option>
-                                <option value="deafened">Deafened</option>
-                                <option value="exhaustion">Exhaustion</option>
-                                <option value="frightened">Frightened</option>
-                                <option value="grappled">Grappled</option>
-                                <option value="incapacitated">Incapacitated</option>
-                                <option value="invisible">Invisible</option>
-                                <option value="paralyzed">Paralyzed</option>
-                                <option value="petrified">Petrified</option>
-                                <option value="poisoned">Poisoned</option>
-                                <option value="prone">Prone</option>
-                                <option value="restrained">Restrained</option>
-                                <option value="stunned">Stunned</option>
-                                <option value="unconscious">Unconscious</option>
+                                <option value="blinded">Ослепление</option>
+                                <option value="charmed">Очарование</option>
+                                <option value="deafened">Оглушение</option>
+                                <option value="exhaustion">Истощение</option>
+                                <option value="frightened">Испуг</option>
+                                <option value="grappled">Схвачен</option>
+                                <option value="incapacitated">Обездвижен</option>
+                                <option value="invisible">Невидимость</option>
+                                <option value="paralyzed">Паралич</option>
+                                <option value="petrified">Окаменение</option>
+                                <option value="poisoned">Отравление</option>
+                                <option value="prone">Падение ничком</option>
+                                <option value="restrained">Опутан</option>
+                                <option value="stunned">Ошеломление</option>
+                                <option value="unconscious">Недееспособность</option>
                             </select>
-                            <button type="button" onclick="InputFunctions.AddConditionInput()">Immune</button>
+                            <button type="button" onclick="InputFunctions.AddConditionInput()">Иммунитет</button>
                             <div id="conditions-input-section">
                                 <ul id="conditions-input-list" class="statblock-list"></ul>
                             </div>
@@ -484,39 +498,39 @@
                 <table>
                     <tr>
                         <td id="damagetypes-form">
-                            <label for="damagetypes-input">Damage Types:<br>
+                            <label for="damagetypes-input">Типы урона:<br>
                                 <select id="damagetypes-input" onchange="FormFunctions.ShowHideDamageOther()">
                                     <option value="acid">Кислота</option>
                                     <option value="bludgeoning">Дробящий</option>
-                                    <option value="cold">Cold</option>
-                                    <option value="fire">Fire</option>
-                                    <option value="force">Force</option>
-                                    <option value="lightning">Lightning</option>
-                                    <option value="necrotic">Necrotic</option>
+                                    <option value="cold">Холод</option>
+                                    <option value="fire">Огонь</option>
+                                    <option value="force">Сила</option>
+                                    <option value="lightning">Молния</option>
+                                    <option value="necrotic">Некротика</option>
                                     <option value="piercing">Колющий</option>
-                                    <option value="poison">Poison</option>
-                                    <option value="psychic">Psychic</option>
-                                    <option value="radiant">Radiant</option>
-                                    <option value="slashing">Slashing</option>
-                                    <option value="thunder">Thunder</option>
+                                    <option value="poison">Яд</option>
+                                    <option value="psychic">Психика</option>
+                                    <option value="radiant">Излучение</option>
+                                    <option value="slashing">Рубящий</option>
+                                    <option value="thunder">Звук</option>
                                     <option value="bludgeoning, piercing, and slashing from nonmagical attacks">
-                                        Nonmagical Attacks</option>
+                                        Физические атаки</option>
                                     <option
                                         value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered">
-                                        Non-Silvered Attacks</option>
+                                        Физические атаки, совершённые не серебряным оружием</option>
                                     <option
-                                        value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't adamantine">
-                                        Non-Adamantine Attacks</option>
-                                    <option value="*">Other</option>
+                                        value="bludgeoning, piercing, and slashing from nonmagical attacks not made with adamantine weapons">
+                                        Атаки, совершённые не адамантьевым оружием</option>
+                                    <option value="*">Другие</option>
                                 </select>
                             </label>
                             <div><input id="other-damage-input" type="text" value=""></div>
                             <div>
                                 <button type="button"
-                                    onclick="InputFunctions.AddDamageTypeInput('v')">Vulnerable</button>
+                                    onclick="InputFunctions.AddDamageTypeInput('v')">Уязвимость</button>
                                 <button type="button"
-                                    onclick="InputFunctions.AddDamageTypeInput('r')">Resistant</button>
-                                <button type="button" onclick="InputFunctions.AddDamageTypeInput('i')">Immune</button>
+                                    onclick="InputFunctions.AddDamageTypeInput('r')">Сопротивление</button>
+                                <button type="button" onclick="InputFunctions.AddDamageTypeInput('i')">Иммунитет</button>
                             </div>
                             <div id="damage-input-section">
                                 <ul id="damage-input-list" class="statblock-list"></ul>

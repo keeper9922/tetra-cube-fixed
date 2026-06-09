@@ -100,6 +100,81 @@ const RU_LANGUAGES = {
     Thief: "Воровской жаргон"
 };
 
+const RU_SKILLS = {
+    acrobatics: "Акробатика",
+    animalHandling: "Уход за животными",
+    arcana: "Магия",
+    athletics: "Атлетика",
+    deception: "Обман",
+    history: "История",
+    insight: "Проницательность",
+    intimidation: "Запугивание",
+    investigation: "Расследование",
+    medicine: "Медицина",
+    nature: "Природа",
+    perception: "Восприятие",
+    performance: "Выступление",
+    persuasion: "Убеждение",
+    religion: "Религия",
+    sleightOfHand: "Ловкость рук",
+    stealth: "Скрытность",
+    survival: "Выживание"
+};
+
+const RU_DAMAGE = {
+    acid: "кислота",
+    bludgeoning: "дробящий",
+    cold: "холод",
+    fire: "огонь",
+    force: "сила",
+    lightning: "электричество",
+    necrotic: "некротика",
+    piercing: "колющий",
+    poison: "яд",
+    psychic: "психика",
+    radiant: "излучение",
+    slashing: "рубящий",
+    thunder: "звук",
+    "bludgeoning, piercing, and slashing from nonmagical attacks":
+        "Физические атаки",
+
+    "bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered":
+        "Физические атаки, совершённые не серебряным оружием",
+
+    "bludgeoning, piercing, and slashing from nonmagical attacks not made with adamantine weapons":
+        "Атаки, совершённые не адамантьевым оружием"
+}
+
+const RU_CONDITIONS = {
+    blinded: "Ослепление",
+    charmed: "Очарование",
+    deafened: "Оглушение",
+    exhaustion: "Истощение",
+    frightened: "Испуг",
+    grappled: "Схвачен",
+    incapacitated: "Обездвижен",
+    invisible: "Невидимость",
+    paralyzed: "Паралич",
+    petrified: "Окаменение",
+    poisoned: "Отравление",
+    prone: "Падение ничком",
+    restrained: "Опутан",
+    stunned: "Ошеломление",
+    unconscious: "Недееспособность"
+}
+
+TRANSLATIONS = {
+    skills: RU_SKILLS,
+    damage: RU_DAMAGE,
+    conditions: RU_CONDITIONS,
+    special_damage: RU_DAMAGE,
+};
+
+function Translate(group, value) {
+    return TRANSLATIONS[group]?.[value] || value;
+}
+// MakeDisplayList: function
+
 // Save function
 var TrySaveFile = () => {
     SavedData.SaveToFile();
@@ -264,7 +339,7 @@ function UpdateStatblock(moveSeparationPoint) {
     if (mon.isMythic && mon.isLegendary && (mon.mythics.length > 0 || mon.mythicDescription.length > 0))
         AddToTraitList(traitsHTML, mon.mythics, mon.mythicDescription === "" ?
             "<h3>Mythic Actions</h3><div class='property-block'></div>" :
-            ["<h3>Mythic Actions</h3><div class='property-block'>", StringFunctions.FormatString(ReplaceTags(StringFunctions.RemoveHtmlTags(mon.mythicDescription))), "</div></br>"], true);    
+            ["<h3>Mythic Actions</h3><div class='property-block'>", StringFunctions.FormatString(ReplaceTags(StringFunctions.RemoveHtmlTags(mon.mythicDescription))), "</div></br>"], true);
     if (mon.isLair && mon.isLegendary && (mon.lairs.length > 0 || mon.lairDescription.length > 0 || mon.lairDescriptionEnd.length > 0)) {
         AddToTraitList(traitsHTML, mon.lairs, mon.lairDescription === "" ?
             "<h3>Lair Actions</h3><div class='property-block'></div>" :
@@ -446,7 +521,7 @@ function ReplaceTags(desc) {
 function TryMarkdown() {
     let markdownWindow = window.open();
     let markdown = ['<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><title>', mon.name, '</title><link rel="shortcut icon" type="image/x-icon" href="./dndimages/favicon.ico" /></head><body>'];
-    
+
     markdown.push(
         "<h2>Homebrewery V3</h2>",
         BuildMarkdown(V3_MARKDOWN),
@@ -467,7 +542,7 @@ function BuildMarkdown(isV3Markdown) {
     }
     else {
         if (mon.doubleColumns) {
-            markdownLines.push("___");  
+            markdownLines.push("___");
         }
         markdownLines.push("___");
     }
@@ -477,7 +552,7 @@ function BuildMarkdown(isV3Markdown) {
         `*${StringFunctions.StringCapitalize(mon.size)} ${mon.type}${mon.tag != "" ? ` (${mon.tag})`  : ""}, ${mon.alignment}*`,
         `___`,
         PrintMarkdownProperty(isV3Markdown, "Armor Class", StringFunctions.FormatString(StringFunctions.GetArmorData())),
-        PrintMarkdownProperty(isV3Markdown, "Hit Points", StringFunctions.GetHP()), 
+        PrintMarkdownProperty(isV3Markdown, "Hit Points", StringFunctions.GetHP()),
         PrintMarkdownProperty(isV3Markdown, "Speed", StringFunctions.GetSpeed()),
         `___`);
     AddMarkdownAttributesTable(markdownLines);
@@ -487,8 +562,8 @@ function BuildMarkdown(isV3Markdown) {
 
     for (let index = 0; index < propertiesDisplayArr.length; index++) {
         markdownLines.push(
-            PrintMarkdownProperty(isV3Markdown, 
-            propertiesDisplayArr[index].name, 
+            PrintMarkdownProperty(isV3Markdown,
+            propertiesDisplayArr[index].name,
             Array.isArray(propertiesDisplayArr[index].arr) ? propertiesDisplayArr[index].arr.join(", ") : propertiesDisplayArr[index].arr));
     }
 
@@ -511,7 +586,7 @@ function BuildMarkdown(isV3Markdown) {
     if (isV3Markdown) {
         markdownLines.push("}}");
     }
-    else 
+    else
     {
         LegacyMarkdownFormating(markdownLines);
     }
@@ -545,7 +620,7 @@ function AddMarkdownTraitSection(markdownLines, isV3Markdown, sectionTitle, trai
     {
         return;
     }
-    
+
     let traitDiv = isV3Markdown ? ":" : "";
     let legendary = formatOptions === LEGENDARY;
     let lairOrRegional = formatOptions === LAIR || formatOptions === REGIONAL;
@@ -559,7 +634,7 @@ function AddMarkdownTraitSection(markdownLines, isV3Markdown, sectionTitle, trai
                 .replace(/(\r\n|\r|\n)\s*(\r\n|\r|\n)/g, '\n>\n')
                 .replace(/(\r\n|\r|\n)>/g, `\&lt;br&gt;<br>`)
                 .replace(/(\r\n|\r|\n)/g, `\&lt;br&gt;<br> &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;`);
-            
+
             let traitString = (legendary ? "**" : (lairOrRegional ? "* " : "***")) +
             (lairOrRegional ? "" : traitArr[index].name) +
             (legendary ? ".** " : lairOrRegional ? "" : (".*** ")) +
@@ -580,7 +655,7 @@ function AddMarkdownTraitSection(markdownLines, isV3Markdown, sectionTitle, trai
 function LegacyMarkdownFormating(markdownLines) {
     // Append each line with a >
     // Skip first 1 or 2 lines depending if its wide frame or not
-    let startingIndex = mon.doubleColumns ? 2 : 1; 
+    let startingIndex = mon.doubleColumns ? 2 : 1;
 
     for (let index = startingIndex; index < markdownLines.length; index++)
     {
@@ -591,7 +666,7 @@ function LegacyMarkdownFormating(markdownLines) {
 function ConvertMarkdownToHtmlString(markdownLines) {
     // Add line breaks and code tags
     let builtLines = [];
-    
+
     markdownLines.forEach(line => {
         line.split("<br>").forEach(subLine => {
             builtLines.push(`${subLine}<br>`);
@@ -685,19 +760,19 @@ var FormFunctions = {
         this.MakeDisplayList("lairs", false, true);
         this.MakeDisplayList("regionals", false, true);
 
-        // Is Legendary?	
+        // Is Legendary?
         $("#is-legendary-input").prop("checked", mon.isLegendary);
         this.ShowHideLegendaryCreature();
 
-        // Is Mythic?	
+        // Is Mythic?
         $("#is-mythic-input").prop("checked", mon.isMythic);
         this.ShowHideMythicCreature();
 
-        // Is Lair?	
+        // Is Lair?
         $("#has-lair-input").prop("checked", mon.isLair);
         this.ShowHideLair();
 
-        // Is Regional?	
+        // Is Regional?
         $("#has-regional-input").prop("checked", mon.isRegional);
         this.ShowHideRegional();
 
@@ -873,15 +948,15 @@ var FormFunctions = {
     MakeDisplayList: function (arrName, capitalize, isBlock = false) {
         if (typeof mon[arrName] == 'undefined')
             mon[arrName] = [];
-        let arr = (arrName == "damage" ? mon.damagetypes.concat(mon.specialdamage) : mon[arrName]),
+        let arr = (arrName === "damage" ? mon.damagetypes.concat(mon.specialdamage) : mon[arrName]),
             displayArr = [],
             content = "",
             arrElement = "#" + arrName + "-input-list";
         for (let index = 0; index < arr.length; index++) {
             let element = arr[index],
-                elementName = capitalize ? StringFunctions.StringCapitalize(element.name) : element.name,
+                elementName = capitalize ? StringFunctions.StringCapitalize(Translate(arrName, element.name)) : Translate(arrName, element.name),
+                // || capitalize ? StringFunctions.StringCapitalize(element.name) : element.name,
                 note = element.hasOwnProperty("note") ? element.note : "";
-
             if (arrName == "languages") {
                 content = "<b>" + StringFunctions.FormatString(elementName + note, false) + (element.speaks || element.speaks == undefined ? "" : " (understands)") + "</b>";
             }
@@ -981,8 +1056,9 @@ var InputFunctions = {
         FormFunctions.MakeDisplayList("sthrows", true);
     },
     AddSkillInput: function (note) {
+        var skill = $("#skills-input").val()
         // Insert Alphabetically
-        GetVariablesFunctions.AddSkill($("#skills-input").val(), note);
+        GetVariablesFunctions.AddSkill(skill, note);
 
         // Display
         FormFunctions.MakeDisplayList("skills", true);
@@ -1077,13 +1153,13 @@ var InputFunctions = {
 }
 
 function setSavingThrow(name, enabled=true) {
-    console.log("FUNCTION: setSavingThrow: " + name + "; " + mon[name+"Points"] + "; " + enabled);
+    // console.log("FUNCTION: setSavingThrow: " + name + "; " + mon[name+"Points"] + "; " + enabled);
     if (enabled) {
-        console.log("enabled");
+        // console.log("enabled");
         $("#" + name + "-col").prop("checked", true);
         $("#" + name + "save").html(StringFunctions.RemoveHtmlTags(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[name+"Points"]) + CrFunctions.GetProf())))
     }else{
-        console.log("not enabled");
+        // console.log("not enabled");
         $("#" + name + "-col").prop("checked", false);
         $("#" + name + "save").html(StringFunctions.RemoveHtmlTags(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[name+"Points"]))))
         console.log(StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[name+"Points"])) + "; " + mon[name+"Points"])
@@ -1125,7 +1201,7 @@ var GetVariablesFunctions = {
         mon.speedDesc = $("#custom-speed-prompt").val();
         mon.customSpeed = $("#custom-speed-input").prop("checked");
 
-        // Stats	
+        // Stats
         mon.strPoints = $("#str-input").val();
         mon.dexPoints = $("#dex-input").val();
         mon.conPoints = $("#con-input").val();
@@ -1324,7 +1400,7 @@ var GetVariablesFunctions = {
                 if (preset.skills[skillCheck]) {
                     let expectedExpertise = MathFunctions.PointsToBonus(mon[currentSkill.stat + "Points"]) + Math.ceil(CrFunctions.GetProf() * 1.5),
                         skillVal = preset.skills[skillCheck];
-                    this.AddSkill(data.allSkills[index].name, (skillVal >= expectedExpertise ? " (ex)" : null));
+                    this.AddSkill(currentSkill.name, (skillVal >= expectedExpertise ? " (эксперт)" : null));
                 }
             }
         }
@@ -1790,7 +1866,7 @@ var StringFunctions = {
         setSavingThrow("cha", false);
         for (let index = 0; index < mon.sthrows.length; index++){
             setSavingThrow(mon.sthrows[index].name, true);
-            console.log("Actual saving throw description: " + mon.sthrows[index].name + "; " + mon[mon.sthrows[index].name + "Points"] + "; " + CrFunctions.GetProf() + "; " + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[mon.sthrows[index].name + "Points"]) + CrFunctions.GetProf()));
+            // console.log("Actual saving throw description: " + mon.sthrows[index].name + "; " + mon[mon.sthrows[index].name + "Points"] + "; " + CrFunctions.GetProf() + "; " + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[mon.sthrows[index].name + "Points"]) + CrFunctions.GetProf()));
             /*
             sthrowsDisplayArr.push(StringFunctions.StringCapitalize(mon.sthrows[index].name) + " " +
                 StringFunctions.BonusFormat((MathFunctions.PointsToBonus(mon[mon.sthrows[index].name + "Points"]) + CrFunctions.GetProf())));
@@ -1799,7 +1875,7 @@ var StringFunctions = {
         // Skills
         for (let index = 0; index < mon.skills.length; index++) {
             let skillData = mon.skills[index];
-            skillsDisplayArr.push(StringFunctions.StringCapitalize(skillData.name) + " " +
+            skillsDisplayArr.push(StringFunctions.StringCapitalize(RU_SKILLS[skillData.name] || skillData.name) + " " +
                 StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[skillData.stat + "Points"]) + CrFunctions.GetProf() * (skillData.hasOwnProperty("note") ? 2 : 1)));
         }
 
@@ -1812,12 +1888,13 @@ var StringFunctions = {
             immuneDisplayArrSpecial = [];
         for (let index = 0; index < mon.damagetypes.length; index++) {
             let typeId = mon.damagetypes[index].type;
-            (typeId == "v" ? vulnerableDisplayArr : typeId == "i" ? immuneDisplayArr : resistantDisplayArr).push(mon.damagetypes[index].name)
+            (typeId == "v" ? vulnerableDisplayArr : typeId == "i" ? immuneDisplayArr : resistantDisplayArr).push(Translate("damage", mon.damagetypes[index].name))
         }
         for (let index = 0; index < mon.specialdamage.length; index++) {
             let typeId = mon.specialdamage[index].type,
                 arr = typeId == "v" ? vulnerableDisplayArrSpecial : typeId == "i" ? immuneDisplayArrSpecial : resistantDisplayArrSpecial;
-            arr.push(mon.specialdamage[index].name)
+            console.log(mon.specialdamage[index].name);
+            arr.push(Translate("special_damage", mon.specialdamage[index].name))
         }
         vulnerableDisplayString = StringFunctions.ConcatUnlessEmpty(vulnerableDisplayArr.join(", "), vulnerableDisplayArrSpecial.join("; "), "; ").toLowerCase();
         resistantDisplayString = StringFunctions.ConcatUnlessEmpty(resistantDisplayArr.join(", "), resistantDisplayArrSpecial.join("; "), "; ").toLowerCase();
@@ -1825,7 +1902,7 @@ var StringFunctions = {
 
         // Condition Immunities
         for (let index = 0; index < mon.conditions.length; index++)
-            conditionsDisplayArr.push(mon.conditions[index].name.toLowerCase());
+            conditionsDisplayArr.push(Translate("conditions", mon.conditions[index].name.toLowerCase()));
 
         // Senses
         sensesDisplayString = StringFunctions.GetSenses();
